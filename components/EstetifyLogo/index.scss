@@ -1,0 +1,15 @@
+@import "@/assets/css/_variables.scss";
+
+.logo {
+  height: 40px;
+  fill: black;
+  &.is-white{
+    fill: white
+  }
+  &.is-primary{
+    fill: $primary;
+  }
+  &.is-secondary{
+    fill: $secondary;
+  }
+}

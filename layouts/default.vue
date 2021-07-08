@@ -1,6 +1,5 @@
 <template>
   <div>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
     <Navbar />
     <Nuxt />
     <Footer />
@@ -9,7 +8,7 @@
 
 <script>
 import Navbar from "@/components/Main/Navbar";
-import Footer from "@/components/Main/Footer";
+import Footer from "@/components/Footer/main";
 
 export default {
   components: {

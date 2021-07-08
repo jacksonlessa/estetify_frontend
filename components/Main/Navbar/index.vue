@@ -48,9 +48,10 @@
               <a class="button is-primary">
                 <strong>Sign up</strong>
               </a>
-              <a class="button is-light">
+              
+              <NuxtLink to="/login" class="button is-light">
                 Log in
-              </a>
+              </NuxtLink>
             </div>
           </div>
         </div>

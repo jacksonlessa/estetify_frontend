@@ -1,0 +1,13 @@
+@import "~bulma/sass/utilities/_all.sass";
+
+$secondary: #8F00FF;
+
+$addColors: (
+  'secondary': (
+    $secondary,
+    findColorInvert($secondary),
+    findLightColor($secondary),
+    findDarkColor($secondary),
+  )
+);
+$colors: map-merge($colors, $addColors);

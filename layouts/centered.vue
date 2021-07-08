@@ -1,12 +1,21 @@
 <template>
-  <div>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
-    <Nuxt />
-  </div>
+  <section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+      <div class="column">
+        <Nuxt />
+      </div>
+    </div>
+    <div class="hero-foot">
+      <Copyright class="mb-4"/>
+    </div>    
+  </section>
 </template>
 
 <script>
+import Copyright from "@/components/Footer/copyright";
 export default {
-  components: {},
+  components: {
+     Copyright
+  },
 }
 </script>
