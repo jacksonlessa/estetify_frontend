@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Navbar from "@/components/Main/Navbar";
-import Footer from "@/components/Footer/main";
+import Navbar from "@/components/Layout/Header/main";
+import Footer from "@/components/Layout/Footer/main";
 
 export default {
   components: {

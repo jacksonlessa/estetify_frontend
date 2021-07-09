@@ -1,11 +1,12 @@
 <template>
-  <div class="column is-half is-offset-one-quarter">
-    <div class="has-text-centered mb-4">
-      <Logo color="is-white"/>
+  <div>
+    <div class="tabs is-fullwidth">
+      <ul>
+        <li class="is-active"><NuxtLink to="/login">Login</NuxtLink></li>
+        <li><NuxtLink to="/cadastro">Cadastro</NuxtLink></li>
+      </ul>
     </div>
-    <form class="box">
-      <div>
-      </div>
+    <form>
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
@@ -20,17 +21,24 @@
         </div>
       </div>
 
-      <button class="button is-primary">Log in</button>
+      <div class="is-flex is-justify-content-space-between is-align-items-center">
+        <NuxtLink to="/dash" class="button is-primary">
+          Log in
+        </NuxtLink>
+        <!-- <button class="button is-primary">Log in</button> -->
+        <NuxtLink to="/login/esqueci-minha-senha">
+          Esqueci minha senha
+        </NuxtLink>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
-import Logo from "@/components/EstetifyLogo";
+
 export default {
   layout: 'centered',
   components: {
-    Logo,
   },
 }
 </script>

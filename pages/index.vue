@@ -63,7 +63,7 @@
             <input class="input" type="text" placeholder="Digite seu e-mail">
           </div>
           <div class="control">
-            <a class="button  is-secondary">
+            <a class="button  is-link">
               Enviar
             </a>
           </div>

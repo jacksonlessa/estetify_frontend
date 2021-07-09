@@ -1,6 +1,6 @@
 @import "@/assets/css/_variables.scss";
 
-.logo {
+.estetify-logo {
   height: 40px;
   fill: black;
   &.is-white{
@@ -9,7 +9,7 @@
   &.is-primary{
     fill: $primary;
   }
-  &.is-secondary{
-    fill: $secondary;
+  &.is-link{
+    fill: $link;
   }
 }

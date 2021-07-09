@@ -45,9 +45,9 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary">
+              <NuxtLink to="/cadastro" class="button is-primary">
                 <strong>Sign up</strong>
-              </a>
+              </NuxtLink>
               
               <NuxtLink to="/login" class="button is-light">
                 Log in
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import Logo from "@/components/EstetifyLogo";
+import Logo from "@/components/Layout/EstetifyLogo";
 
 export default {
   name: "Navbar",
