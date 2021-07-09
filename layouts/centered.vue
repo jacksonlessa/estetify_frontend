@@ -16,8 +16,8 @@
         </div>
       </div>
     </div>
-    <div class="page-foot has-text-white">
-      <Copyright class="mb-4"/>
+    <div class="page-foot ">
+      <Copyright class="mb-4 has-text-white force-white"/>
     </div>    
   </section>
 </template>
@@ -35,28 +35,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .page{
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-    .page-body{
-      flex-grow: 1;
-      flex-shrink: 0;
-      padding: 3rem 1.5rem;
-    }
-    .page-foot{
-      flex-grow: 0;
-      flex-shrink: 0;
-    }
-
-    &.is-fullheight{
-      min-height: 100vh;
-      .page-body{
-        align-items: center;
-        display: flex;
-      }    
-    }
-  }
+@import "./centered.scss";
 </style>

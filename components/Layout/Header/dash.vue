@@ -5,7 +5,7 @@
         <Logo color="is-white" />
       </NuxtLink>
 
-      <button class="button navbar-burger" v-bind:class="{'is-active': isActive}"  v-on:click="menuToggle()" data-target="navMenu">
+      <button class="button navbar-burger has-background-primary" v-bind:class="{'is-active': isActive}"  v-on:click="menuToggle()" data-target="navMenu">
         <span></span>
         <span></span>
         <span></span>
