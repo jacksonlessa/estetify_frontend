@@ -17,19 +17,22 @@
       </main>
       </div>
     <!-- <Footer /> -->
+    <div class="copyright has-background-white-ter" v-bind:class="{'sidebar-closed': isClosed}">
+      <Copyright />
+    </div>
   </div>
 </template>
 
 <script>
 import Navbar from "@/components/Layout/Header/dash";
 import Sidebar from "@/components/Layout/Sidebar/dash";
-// import Footer from "@/components/Layout/Footer/dash";
+import Copyright from "@/components/Layout/Footer/copyright";
 
 export default {
   components: {
     Navbar,
     Sidebar,
-    // Footer
+    Copyright
   },
   data() {
     return {
@@ -134,7 +137,20 @@ export default {
       padding: 70px 1em 2em 70px;
     }
   }
-  .footer{
-    
+  .copyright{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    height: 48px;
+    z-index: 20;
+    font-size: .7rem;
+    display: flex;
+    align-items: center;
+    transition: 0.2s all ease-out;
+    padding-left: 10px;
+    &.sidebar-closed{
+      left: 60px;
+    }
   }
 </style>
