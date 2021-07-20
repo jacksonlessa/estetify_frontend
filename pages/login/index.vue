@@ -49,6 +49,7 @@ export default {
         data: {
           email: this.email,
           password: this.password,
+          device_name: 'simplebrowser'
         },
       })
 
