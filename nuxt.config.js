@@ -52,8 +52,39 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  auth: {
+    // Options
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost',
+        token: {
+          property: 'token',
+          global: true,
+          type: 'Bearer',
+          required: true,
+        },
+        endpoints:{
+          login: {
+            url: '/api/login',
+            propertyName: 'token'
+          },
+          logout: {
+            url: '/api/logout'
+          },
+          user: { url: '/api/user', method: 'get' }
+        },
 
+      },
+
+    },
+  },
+  router: {
+    middleware: ['auth']
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }

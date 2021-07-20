@@ -28,6 +28,7 @@
 
 export default {
   layout: 'centered',
+  auth: false,
   components: {
   },
 }
