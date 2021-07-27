@@ -75,5 +75,6 @@
 <script>
 export default {
   layout: 'home',
+  auth: false,
   }
 </script>
