@@ -3,48 +3,52 @@
     <p class="menu-label">General</p>
     <ul class="menu-list">
       <li>
-        <a>
+        <NuxtLink to="/">
           <span class="icon is-small">
             <fa :icon="['fas', 'tachometer-alt']" />
           </span> <span class="menu-text">Dashboard</span>
-        </a>
+        </NuxtLink>
       </li>
     </ul>
     <p class="menu-label">Administration</p>
     <ul class="menu-list">
       <li>
-        <a>
-          <span class="icon is-small"><fa :icon="['fas', 'pencil-alt']" /></span> <span class="menu-text">Forms</span>
-        </a>
+        <NuxtLink to="/servicos">
+          <span class="icon is-small"><fa :icon="['fas', 'box']" /></span> <span class="menu-text">Serviços</span>
+        </NuxtLink>
       </li>
       <li>
-        <a>
-          <span class="icon is-small"><fa :icon="['fas', 'desktop']" /></span> <span class="menu-text">UI Elements</span>
-        </a>
+        <NuxtLink to="/profissionais">
+          <span class="icon is-small"><fa :icon="['far', 'id-card']" /></span> <span class="menu-text">Profissionais</span>
+        </NuxtLink>
       </li>
       <li>
-        <a>
-          <span class="icon is-small"><fa :icon="['fas', 'table']" /></span> <span class="menu-text">Tables</span>
-        </a>
+        <NuxtLink to="/clientes">
+          <span class="icon is-small"><fa :icon="['far', 'address-book']" /></span> <span class="menu-text">Clientes</span>
+        </NuxtLink>
       </li>
       <li>
-        <a>
-          <span class="icon is-small"><fa :icon="['fas', 'chart-bar']" /></span>
-          <span class="menu-text">Presentations</span>
-        </a>
+        <NuxtLink to="/clientes">
+          <span class="icon is-small"><fa :icon="['far', 'calendar-alt']" /></span> <span class="menu-text">Agenda</span>
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="/clientes">
+          <span class="icon is-small"><fa :icon="['fas', 'users']" /></span> <span class="menu-text">Usuários</span>
+        </NuxtLink>
       </li>
     </ul>
 
-    <p class="menu-label">Live On</p>
+    <p class="menu-label">Fale com a Gente</p>
     <ul class="menu-list">
       <li>
         <a>
-          <span class="icon is-small"><fa :icon="['fas', 'bug']" /></span> <span class="menu-text">Additional Pages</span>
+          <span class="icon is-small"><fa :icon="['fas', 'bug']" /></span> <span class="menu-text">Encontrou um erro?</span>
         </a>
       </li>
       <li>
         <a>
-          <span class="icon is-small"><fa :icon="['fab', 'windows']" /></span> <span class="menu-text">Extras</span>
+          <span class="icon is-small"><fa :icon="['fab', 'telegram-plane']" /></span> <span class="menu-text">Contato</span>
         </a>
       </li>
     </ul>

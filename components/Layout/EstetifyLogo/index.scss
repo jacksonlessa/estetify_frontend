@@ -2,14 +2,14 @@
 
 .estetify-logo {
   height: 40px;
-  fill: black;
+  color: black;
   &.is-white{
-    fill: white
+    color: white
   }
   &.is-primary{
-    fill: $primary;
+    color: $primary;
   }
   &.is-link{
-    fill: $link;
+    color: $link;
   }
 }

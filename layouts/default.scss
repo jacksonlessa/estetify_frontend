@@ -1,3 +1,5 @@
+@import "../assets/css/variables";
+
 .navbar {
   position: fixed;
   top: 0;
@@ -25,58 +27,141 @@
 .wrapper {
   height: 100vh;
 }
+
 .aside {
-  padding: 2em .5em 0 .5em;
-  height: calc(100vh - 58px);
+  background: $white;
+	padding: 2em .5em 0 .5em;
+  height: calc(100vh - 64px);
   overflow: hidden;
   transition: 0.2s width ease-out;
   position: fixed;
-  top: 58px;
+  top: 64px;
   left: 0;
   z-index: 2;
-  width: 250px;
+	width: 250px;
   box-shadow: 2px 0 0 0 whitesmoke;
 
-  &.closed{
-    width: 60px;
-
-    .menu-label, 
-    .menu-text{
-      display: none;
-    }
-
-    #sidebar-toggler .icon {
-      transform: rotate(180deg);
-      margin-right: -5px;
-    }
-  }
-  .menu-list {
-    a{
-      display: block;
-      padding: 0.5em 0.75em;
-    }
-    .icon,
-    i{
-      margin-right: 10px;
-      margin-left: 3px;
-    }
-  }
-
-  #sidebar-toggler{
+  #sidebar-toggler {
     width: 100%;
     cursor: pointer;
     bottom: 0;
     left: 0;
     position: absolute;
-    background-color: #00d1b2;
+    background-color: $primary;
     padding: 1rem 2rem;
     display: flex;
     justify-content: flex-end;
+
     .icon {
-        transition: 0.3s linear transform;
+      transition: 0.3s linear transform;
+    }
+
+	}
+
+  a {
+    color: $text;
+  }
+
+  .menu-list {
+    li {
+      margin-top: .5em;
+
+    }
+
+    .has-children {
+      max-height: 36px;
+      overflow: hidden;
+      transition: 0.6s max-height ease-out;
+      position: relative;
+
+      >a {
+        position: relative;
+      }
+
+      >a::before {
+        content: "\f107";
+        font-family: "FontAwesome";
+        transition: .2s ease-out transform;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-45%);
+        transform-origin: center;
+        transition-duration: 0.3s;
+      }
+    }
+
+    .has-children.open {
+      max-height: 1000px;
+
+      >a::before {
+        transform: rotate(-180deg) translateY(40%);
+      }
+    }
+
+    .icon,
+    i {
+      margin-right: 10px;
+      margin-left: 5px;
     }
   }
+
+  &.closed {
+    width: 60px;
+
+    .menu-label,
+    .menu-text {
+      display: none;
+    }
+
+    .has-children {
+      >a::before {
+        opacity: 0;
+      }
+    }
+
+    #sidebar-toggler {
+      justify-content: center;
+
+      .icon {
+        transform: rotate(180deg);
+        margin-right: 8px;
+      }
+    }
+
+	}
+
+	// on mobile only
+	@media (max-width: 768px) {
+		width: 60px;
+		overflow: auto;
+
+		#sidebar-toggler {
+			display: none;
+		}
+
+		&:not(:hover){
+			.menu-label,
+			.menu-text {
+				display: none;
+			}
+			.menu-list {
+				.has-children {
+					max-height: 36px;
+
+					>a::before {
+						opacity: 0;
+					}
+				}
+			}
+		}
+
+		&:hover{
+			width: 250px;
+		}
+	}
 }
+
 .main{
   padding: 70px 1em 2em 260px;
   min-height: calc(100vh - 58px);
@@ -85,6 +170,10 @@
   &.sidebar-closed{
     padding: 70px 1em 2em 70px;
   }
+
+  @media (max-width: 768px) {
+		padding: 70px 1em 2em 70px;
+	}
 }
 .copyright{
   width: 100%;
@@ -101,4 +190,8 @@
   &.sidebar-closed{
     left: 60px;
   }
+
+  @media (max-width: 768px) {
+    left: 0;
+	}
 }

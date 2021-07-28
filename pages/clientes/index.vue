@@ -1,20 +1,22 @@
 <template>
   <div>
-    <h3 class="title is-2 has-text-primary">Serviços</h3>
-    <!-- <div class="mb-6 flex justify-between items-center">
+    <h3 class="title is-2 has-text-primary">Clientes</h3>
+    <div class="mb-6 flex justify-between items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
-        <label class="block text-gray-700">Trashed:</label>
-        <select v-model="form.trashed" class="mt-1 w-full form-select">
-          <option :value="null" />
-          <option value="with">With Trashed</option>
-          <option value="only">Only Trashed</option>
-        </select>
-      </search-filter>
-      <inertia-link class="btn-indigo" :href="route('contacts.create')">
-        <span>Create</span>
-        <span class="hidden md:inline">Contact</span>
-      </inertia-link>
-    </div> -->
+        <label class="block text-gray-700">Excluidos:</label>
+        <div class="control">
+          <select v-model="form.trashed" class="select">
+            <option :value="null">Sem excluidos</option>
+            <option value="with">Com excluidos</option>
+            <option value="only">Somente excluidos</option>
+          </select>
+        </div>
+      </search-filter> 
+      <a class="btn is-primary" >
+        <span>Criar</span>
+        <span class="hidden md:inline">Serviço</span>
+      </a>
+    </div>
     <div>
       <table class="table is-striped is-fullwidth">
         <thead>
@@ -53,14 +55,20 @@
 
 <script>
 import axios from "axios";
+import throttle from 'lodash/throttle'
+import mapValues from 'lodash/mapValues'
+import SearchFilter from '@/components/Shared/SearchFilter'
 
 export default {
-
+  components: {
+    // Pagination,
+    SearchFilter,
+  },
   data() {
     return {
       form: {
-        // search: this.filters.search,
-        // trashed: this.filters.trashed,
+        search: "",
+        trashed: "",
       },
       services: []
     }
@@ -68,7 +76,7 @@ export default {
   async fetch() {
     this.services = this.$repositories.services.all();
 
-    this.$repositories.services.all().then((res) => {
+    this.$repositories.services.all(this.form).then((res) => {
       this.services = res.data
     }).catch((error) => {
       this.$router.replace({ name: "dashboard.customer.account-overview" });
@@ -80,7 +88,15 @@ export default {
     reset() {
       this.form = mapValues(this.form, () => null)
     },
-    
   },
+  watch: {
+    form: {
+      deep: true,
+      handler: throttle(function() {
+        console.log(this.form);
+        this.$fetch()
+      }, 500),
+    }
+  }
 }
 </script>

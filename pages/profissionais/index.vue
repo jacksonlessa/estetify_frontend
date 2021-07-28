@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="title is-2 has-text-primary">Serviços</h3>
+    <h3 class="title is-2 has-text-primary">Profissionais</h3>
     <!-- <div class="mb-6 flex justify-between items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Trashed:</label>

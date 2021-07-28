@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar has-shadow is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <NuxtLink to="/dash" class="navbar-item is--brand">
+      <NuxtLink to="/" class="navbar-item is--brand">
         <Logo color="is-white" />
       </NuxtLink>
 
@@ -14,34 +14,34 @@
 
     <div class="navbar-menu navbar-end" id="navMenu"  v-bind:class="{'is-active': isActive}">
       <a class="navbar-item nav-tag">
-        <span class="icon is-small has-background-grey-dark">
+        <span class="icon is-small has-background-grey-dark has-text-white">
           <fa :icon="['far','envelope']" />
         </span>
         <span class="tag is-success counter">2</span>
       </a>
       <a class="navbar-item nav-tag">
-        <span class="icon is-small has-background-grey-dark">
+        <span class="icon is-small has-background-grey-dark has-text-white">
           <fa :icon="['far','bell']" />
         </span>
         <span class="tag is-danger counter">6</span>
       </a>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-          <fa :icon="['fas','user']" />&nbsp;          
-          Olá, usuario
+          <fa :icon="['fas','user']" />&nbsp;
+          Olá, {{ user.name }}
         </a>
 
         <div class="navbar-dropdown is-right">
-          <a class="navbar-item" href="https://mazipan.space/" target="_blank" rel="noopener noreferrer">
+          <NuxtLink to="/profile"  class="navbar-item">
             <span class="icon is-small">
-              <i class="fa fa-user-o"></i>
+              <fa :icon="['fas','user']" />
             </span>
             &nbsp; Profile
-          </a>
+          </NuxtLink>
           <hr class="navbar-divider" />
-          <a class="navbar-item">
+          <a class="navbar-item" @click.prevent="logout">
             <span class="icon is-small">
-              <i class="fa fa-power-off"></i>
+              <fa :icon="['fas','power-off']" />
             </span>
             &nbsp; Logout
           </a>
@@ -61,13 +61,19 @@ export default {
   },
   data() {
     return {
-      isActive: false
+      isActive: false,
+      user: this.$auth.user,
     }
   },
   methods: {
     menuToggle: function() {
       this.isActive = !this.isActive;
-    }
+    },
+    async logout() {
+      await this.$auth.logout()
+
+      this.$router.push('/login')
+    },
   }
 };
 </script>
