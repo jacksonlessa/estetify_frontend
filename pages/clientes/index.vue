@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3 class="title is-2 has-text-primary">Clientes</h3>
+
     <div class="mb-6 flex justify-between items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Excluidos:</label>
@@ -13,55 +14,64 @@
         </div>
       </search-filter> 
       <a class="btn is-primary" >
-        <span>Criar</span>
-        <span class="hidden md:inline">Serviço</span>
+        <span>Novo</span>
+        <span class="hidden md:inline">Cliente</span>
       </a>
     </div>
     <div>
-      <table class="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Preço</th>            
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="service in services.data" :key="service.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
-            <td>
-              {{ service.name }}
-            </td> 
-            <td>
-              {{ service.description }}
-            </td>
-            <td>
-              {{ service.price }}
-            </td>
-            <td>
-              >
-            </td>
-          </tr>
-          <tr v-if="services.length === 0">
-            <td colspan="3">Nenhum serviço cadastrado.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table class="table is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th>Documento</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+              <td>
+                {{ client.name }}
+              </td> 
+              <td>
+                {{ client.email }}
+              </td>            
+              <td>
+                {{ client.phone }}
+              </td>
+              <td>
+                {{ client.document }}
+              </td>
+              <td>
+                >
+              </td>
+            </tr>
+            <tr v-if="clients.length === 0">
+              <td colspan="3">Nenhum Cliente cadastrado.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pagination :current_page="clients.current_page" 
+        :last_page="clients.last_page"
+        @pageChange="pageChange"
+      />
     </div>
-    <!-- <pagination class="mt-6" :links="contacts.links" /> -->
   </div>
 </template>
 
 
 <script>
-import axios from "axios";
 import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
 import SearchFilter from '@/components/Shared/SearchFilter'
+import Pagination from '@/components/Shared/Pagination'
 
 export default {
   components: {
-    // Pagination,
+    Pagination,
     SearchFilter,
   },
   data() {
@@ -70,14 +80,30 @@ export default {
         search: "",
         trashed: "",
       },
-      services: []
+      current_page: 1,
+      clients: {
+        data: [],
+        current_page: 1,
+        last_page: 10,
+      }
+
+
+
     }
   },
   async fetch() {
-    this.services = this.$repositories.services.all();
 
-    this.$repositories.services.all(this.form).then((res) => {
-      this.services = res.data
+    let query = {}
+
+    if(this.form.search)
+      query.search = this.form.search
+    if(this.form.trashed)
+      query.trashed = this.form.trashed
+    if(this.current_page)
+      query.page = this.current_page
+
+    this.$repositories.clients.all(query).then((res) => {
+      this.clients = res.data
     }).catch((error) => {
       this.$router.replace({ name: "dashboard.customer.account-overview" });
       reject(error);
@@ -88,15 +114,22 @@ export default {
     reset() {
       this.form = mapValues(this.form, () => null)
     },
+    pageChange(page) {
+      this.current_page = page;
+      this.clients.current_page = page;
+    }
   },
   watch: {
     form: {
       deep: true,
-      handler: throttle(function() {
-        console.log(this.form);
+      handler: throttle(function(e, f) {
+        this.current_page = 1;
         this.$fetch()
-      }, 500),
-    }
+      }, 1000),
+    },
+    current_page: throttle(function() {
+        this.$fetch()
+      }, 500)
   }
 }
 </script>

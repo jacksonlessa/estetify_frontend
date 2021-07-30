@@ -1,3 +1,4 @@
+import ClientsRepository from '~/repositories/ClientsRepository';
 import ServicesRepository from '~/repositories/ServicesRepository';
 import UserRepository from '~/repositories/UserRepository';
 
@@ -9,6 +10,7 @@ export default ($axios) => {
     }
 
     return {
+        clients: ClientsRepository($axios),
         services: ServicesRepository($axios),
         users: UserRepository($axios),
     }
