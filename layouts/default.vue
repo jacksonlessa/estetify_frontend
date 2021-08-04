@@ -17,9 +17,9 @@
       </main>
       </div>
     <!-- <Footer /> -->
-    <div class="copyright has-background-white-ter" v-bind:class="{'sidebar-closed': isClosed}">
+    <!-- <div class="copyright has-background-white-ter" v-bind:class="{'sidebar-closed': isClosed}">
       <Copyright />
-    </div>
+    </div> -->
   </div>
 </template>
 

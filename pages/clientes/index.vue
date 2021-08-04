@@ -1,8 +1,15 @@
 <template>
   <div>
-    <h3 class="title is-2 has-text-primary">Clientes</h3>
+    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
+      <div class="icon-text">
+        <span class="icon">
+          <fa :icon="['far', 'address-book']" />
+        </span>
+        <span>Clientes</span>
+      </div>
+    </h1>
 
-    <div class="mb-6 flex justify-between items-center">
+    <div class="is-flex mb-5 is-justify-content-space-between is-flex-wrap-wrap is-align-items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Excluidos:</label>
         <div class="control">
@@ -13,10 +20,10 @@
           </select>
         </div>
       </search-filter> 
-      <a class="btn is-primary" >
+      <NuxtLink to="/clientes/novo" class="button is-primary mb-2">
         <span>Novo</span>
-        <span class="hidden md:inline">Cliente</span>
-      </a>
+        <span class="is-hidden-touch">&nbsp;Cliente</span>
+      </NuxtLink>
     </div>
     <div>
       <div class="table-container">

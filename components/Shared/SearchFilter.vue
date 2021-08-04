@@ -1,9 +1,9 @@
 <template>
-  <div class="field has-addons">
+  <div class="field has-addons mb-2">
     <div class="dropdown is-hoverable">
       <div class="dropdown-trigger">
         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-          <span>Filtros</span>
+          <span class="is-hidden-touch">Filtros</span>
           <span class="icon is-small">
             <fa :icon="['fas', 'angle-down']" />
           </span>
@@ -19,10 +19,10 @@
     </div>
     
     <div class="control">
-      <input class="input" autocomplete="off" type="text" name="search" placeholder="Search…" :value="value" @input="$emit('input', $event.target.value)" />
+      <input class="input" autocomplete="off" type="text" name="search" placeholder="Buscar..." :value="value" @input="$emit('input', $event.target.value)" />
     </div>
     <div class="control">
-      <button class="button is-primary" type="button" @click="$emit('reset')">Reset</button>
+      <button class="button is-ghost" type="button" @click="$emit('reset')">Reset</button>
     </div>
   </div>
 </template>

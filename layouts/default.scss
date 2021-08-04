@@ -163,16 +163,16 @@
 }
 
 .main{
-  padding: 70px 1em 68px 260px;
-  min-height: calc(100vh - 58px);
+  padding: 80px 1em 50px 260px;
+  min-height: calc(100vh);
   transition: 0.2s all ease-out;
 
   &.sidebar-closed{
-    padding: 70px 1em 68px 70px;
+    padding: 80px 1em 50px 75px;
   }
 
   @media (max-width: 768px) {
-		padding: 70px 1em 68px 70px;
+		padding: 80px 1em 68px 75px;
 	}
 }
 .copyright{
