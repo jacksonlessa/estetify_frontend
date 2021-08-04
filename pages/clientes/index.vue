@@ -112,7 +112,7 @@ export default {
     this.$repositories.clients.all(query).then((res) => {
       this.clients = res.data
     }).catch((error) => {
-      this.$router.replace({ name: "dashboard.customer.account-overview" });
+      //this.$router.replace({ name: "" }); @TODO add correct route
       reject(error);
     })
   },
