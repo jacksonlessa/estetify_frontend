@@ -1,4 +1,11 @@
 export default {
+
+  /*
+  ** Nuxt rendering mode
+  ** See https://nuxtjs.org/api/configuration-mode
+  */
+  mode: 'spa', 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'estetify-frontend',
