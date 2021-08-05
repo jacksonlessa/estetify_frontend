@@ -19,10 +19,23 @@
       <div class="card">
         <div class="card-content">
           <div class="columns is-multiline is-tablet">
-            <text-input v-model="form.name" class="column py-0 is-6" label="Nome" />
-            <text-input v-model="form.email" class="column py-0 is-6" label="E-mail" />
-            <text-input v-model="form.phone" class="column py-0 is-6" label="Telefone" />
-            <text-input v-model="form.document" class="column py-0 is-6" label="Documento" />
+            <div class="field column py-0 is-6">
+              <text-input v-model.trim="form.name" label="Nome" />
+              <div v-if="submitStatus && !$v.form.name.required" class="help is-danger">Campo necessário</div>
+              <div v-if="submitStatus && !$v.form.name.minLength" class="help is-danger" >Name must have at least {{$v.form.name.$params.minLength.min}} letters.</div>
+            </div>
+            <div class="field column py-0 is-6">
+              <text-input v-model="form.email" label="E-mail" />
+              <div v-if="error" class="help is-danger">{{ error }}</div>
+            </div>
+            <div class="field column py-0 is-6">
+              <text-input v-model="form.phone" label="Telefone" />
+              <div v-if="error" class="help is-danger">{{ error }}</div>
+            </div>
+            <div class="field column py-0 is-6">
+              <text-input v-model="form.document" label="Documento" />
+              <div v-if="error" class="help is-danger">{{ error }}</div>
+            </div>
           </div>
 
         </div>
@@ -39,7 +52,7 @@
 
 <script>
 import TextInput from '@/components/Shared/TextInput'
-import { required } from "vuelidate/lib/validators";
+import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   components: {
@@ -48,25 +61,27 @@ export default {
   data() {
     return {
       form: {
-        name: null,
+        name: '',
         email: null,
         phone: null,
         document: null,
-      }
+      },
+      submitStatus: false
     }
   },
   validations: {
     form: {
       name: {
         required,
+        minLength: minLength(4)
       },
     },
   },
   methods: {
     async store() {
+      this.submitStatus = true;
       this.$v.$touch();
       if (this.$v.$invalid) {
-        alert('Atenção, verifique se todas as informações estão corretas')
         return;
       }
       this.$repositories.clients.create(this.form)
