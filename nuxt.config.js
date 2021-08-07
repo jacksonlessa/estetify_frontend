@@ -66,7 +66,8 @@ export default {
   ],
   axios: {
     baseURL: process.env.API_BASE_URL,
-    https: false
+    https: false,
+    credentials: true,
   },
   auth: {
     // Options

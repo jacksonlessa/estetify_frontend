@@ -66,6 +66,7 @@ export default {
         phone: null,
         document: null,
       },
+      error: null,
       submitStatus: false
     }
   },
