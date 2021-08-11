@@ -15,8 +15,8 @@ export default ($axios) => ({
         return $axios.get(`${resource}/${id}`)
     },
 
-    update(payload) {
-        return $axios.put(`${resource}`, payload)
+    update(id, payload) {
+        return $axios.put(`${resource}/${id}`, payload)
     },
 
     delete(id) {

@@ -2,8 +2,8 @@
 <template>
   <div v-show="last_page>1" >
     <nav class="pagination" role="navigation" aria-label="pagination">
-      <a v-if="current_page!==from" class="pagination-previous is-hidden-touch" @click="$emit('pageChange',current_page-1)">Previous</a>
-      <a v-if="current_page!==last_page" class="pagination-next is-hidden-touch" @click="$emit('pageChange',current_page+1)">Next page</a>
+      <a v-if="current_page!==from" class="pagination-previous is-hidden-touch" @click="$emit('pageChange',current_page-1)">Anterior</a>
+      <a v-if="current_page!==last_page" class="pagination-next is-hidden-touch" @click="$emit('pageChange',current_page+1)">Próxima</a>
       <ul class="pagination-list">
         <li v-if="current_page-2>=from"><a class="pagination-link" @click="$emit('pageChange',from)" :aria-label="'ir para página '+from">1</a></li>
         <li v-if="current_page-3>=from"><span class="pagination-ellipsis">&hellip;</span></li> 

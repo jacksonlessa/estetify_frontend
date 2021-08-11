@@ -26,6 +26,9 @@
       </NuxtLink>
     </div>
     <div>
+      <div v-if="warningMessage" class='has-background-warning has-text-warning-dark mb-4 p-3'>
+        {{warningMessage}}
+      </div>
       <div class="table-container">
         <table class="table is-striped is-fullwidth">
           <thead>
@@ -34,13 +37,15 @@
               <th>E-mail</th>
               <th>Telefone</th>
               <th>Documento</th>
-              <th>Ação</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
               <td>
-                {{ client.name }}
+                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">
+                  {{ client.name }}
+                </nuxt-link>
               </td> 
               <td>
                 {{ client.email }}
@@ -52,7 +57,9 @@
                 {{ client.document }}
               </td>
               <td>
-                >
+                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">
+                  <fa :icon="['fas', 'chevron-right']" />
+                </nuxt-link>
               </td>
             </tr>
             <tr v-if="clients.length === 0">
@@ -92,16 +99,22 @@ export default {
         data: [],
         current_page: 1,
         last_page: 10,
-      }
-
-
-
+      },
+      user: this.$auth.user,
+      warningMessage:null,
+    }
+  },
+  mounted(){
+    if (localStorage.warningFlashMessage) {
+      this.warningMessage = localStorage.warningFlashMessage;
+      localStorage.removeItem('warningFlashMessage')
     }
   },
   async fetch() {
 
     let query = {}
 
+    query.account_id = this.user.account_id
     if(this.form.search)
       query.search = this.form.search
     if(this.form.trashed)

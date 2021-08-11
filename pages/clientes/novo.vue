@@ -18,30 +18,33 @@
     <form>
       <div class="card">
         <div class="card-content">
+          <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
+            Um ou mais erros impedem a gravação, se você acha 
+          </div>
           <div class="columns is-multiline is-tablet">
             <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.name" label="Nome" />
-              <div v-if="submitStatus && !$v.form.name.required" class="help is-danger">Campo necessário</div>
-              <div v-if="submitStatus && !$v.form.name.minLength" class="help is-danger" >Name must have at least {{$v.form.name.$params.minLength.min}} letters.</div>
+              <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
             </div>
             <div class="field column py-0 is-6">
-              <text-input v-model="form.email" label="E-mail" />
-              <div v-if="error" class="help is-danger">{{ error }}</div>
+              <text-input v-model="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
             </div>
             <div class="field column py-0 is-6">
-              <text-input v-model="form.phone" label="Telefone" />
-              <div v-if="error" class="help is-danger">{{ error }}</div>
+              <text-input v-model="form.email" :errors="errors.email" label="E-mail" />
             </div>
             <div class="field column py-0 is-6">
-              <text-input v-model="form.document" label="Documento" />
-              <div v-if="error" class="help is-danger">{{ error }}</div>
+              <text-input v-model="form.document" :errors="errors.document" label="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']"/>
             </div>
+          </div>
+
+          <div v-for="error in errors.account_id" :key="error" class='has-background-danger has-text-white mb-4 p-3'>
+            {{error}} <br/>
+            se você está vendo esse erro entre em contato com a gente
           </div>
 
         </div>
         <footer class="card-footer">
-          <a @click="store" class="card-footer-item has-text-primary">Save</a>
-          <NuxtLink href="#" to="/clientes" class="card-footer-item has-text-danger">Cancel</NuxtLink>
+          <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
+          <NuxtLink to="/clientes" class="card-footer-item has-text-link">Voltar</NuxtLink>
         </footer>
     </div>
     </form>
@@ -52,7 +55,7 @@
 
 <script>
 import TextInput from '@/components/Shared/TextInput'
-import { required, minLength } from "vuelidate/lib/validators";
+import mapValues from 'lodash/mapValues'
 
 export default {
   components: {
@@ -65,43 +68,42 @@ export default {
         email: null,
         phone: null,
         document: null,
+        
       },
-      error: null,
-      submitStatus: false
+      errors: {
+        name: null,
+        email: null,
+        phone: null,
+        document: null,
+        account_id: null,
+      },
+      hasError: false,
+      submitStatus: false,
+      user: this.$auth.user,
+      client: null,
     }
-  },
-  validations: {
-    form: {
-      name: {
-        required,
-        minLength: minLength(4)
-      },
-    },
   },
   methods: {
     async store() {
-      this.submitStatus = true;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
+      this.hasError = false;
+      this.errors = mapValues(this.form, () => null)
+      this.form.account_id = this.user.account_id;
       this.$repositories.clients.create(this.form)
       .then((res) => {
-        this.clients = res.data
+        this.client = res.data
+        // name: 'clientes-id', params : {id: client.id}
+        localStorage.successFlashMessage = "Cliente salvo!";
+        this.$router.push({name: 'clientes-id',params : {id: this.client.id}});
+
+        console.log(res)
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
+          this.hasError = true;
           if (error.response.status == 422) {
-            console.log(error.response)
-            this.$router.replace({
-                name: "clientes",
-            });
+            this.errors = error.response.data.errors
             return;
           }
           if (error.response.status == 401) {
-            this.$router.replace({
-                name: "clientes",
-            });
             return;
           }
         }
