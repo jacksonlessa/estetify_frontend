@@ -22,7 +22,7 @@
       <input class="input" autocomplete="off" type="text" name="search" placeholder="Buscar..." :value="value" @input="$emit('input', $event.target.value)" />
     </div>
     <div class="control">
-      <button class="button is-ghost" type="button" @click="$emit('reset')">Reset</button>
+      <button class="button is-ghost" type="button" @click="$emit('reset')">Limpar</button>
     </div>
   </div>
 </template>

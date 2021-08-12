@@ -11,13 +11,33 @@
 
     <div class="is-flex mb-5 is-justify-content-space-between is-flex-wrap-wrap is-align-items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
-        <label class="block text-gray-700">Excluidos:</label>
-        <div class="control">
-          <select v-model="form.trashed" class="select">
-            <option :value="null">Sem excluidos</option>
-            <option value="with">Com excluidos</option>
-            <option value="only">Somente excluidos</option>
-          </select>
+        <div class="field">
+          <label class="label">Telefone:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.phone" placeholder="Telefone" v-mask="['(##) ####-####', '(##) #####-####']" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">E-mail:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.email" placeholder="E-mail" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Documento:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.document" placeholder="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Excluidos:</label>
+          <div class="select">
+            <select v-model="form.trashed">
+              <option :value="null">Sem excluidos</option>
+              <option value="with">Com excluidos</option>
+              <option value="only">Somente excluidos</option>
+            </select>
+          </div>
         </div>
       </search-filter> 
       <NuxtLink to="/clientes/novo" class="button is-primary mb-2">
@@ -93,6 +113,9 @@ export default {
       form: {
         search: "",
         trashed: "",
+        email: "",
+        phone: "",
+        document: "",
       },
       current_page: 1,
       clients: {
@@ -115,10 +138,11 @@ export default {
     let query = {}
 
     query.account_id = this.user.account_id
-    if(this.form.search)
-      query.search = this.form.search
-    if(this.form.trashed)
-      query.trashed = this.form.trashed
+    for (var propName in this.form) {
+      if (this.form[propName] !== ""){
+        query[propName] = this.form[propName]
+      }
+    }
     if(this.current_page)
       query.page = this.current_page
 
