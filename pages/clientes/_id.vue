@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
+    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
       <NuxtLink to="/clientes">
         <div class="icon-text">
           <span class="icon">
@@ -11,13 +11,16 @@
       </NuxtLink>
       <span class="mx-2">/</span>
       <span>
-        Novo
+        {{this.form.name}}
       </span>
     </h1>
 
     <form>
       <div class="card">
         <div class="card-content">
+          <div v-if="successMessage" class='has-background-success has-text-white mb-4 p-3'>
+            {{successMessage}}
+          </div>
           <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
             Um ou mais erros impedem a gravação, se você acha 
           </div>
@@ -44,6 +47,8 @@
         </div>
         <footer class="card-footer">
           <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
+          <a @click="trash" v-if="!form.deleted_at" class="card-footer-item has-text-danger">Deletar</a>
+          <a @click="restore" v-if="form.deleted_at" class="card-footer-item has-text-info">Restaurar</a>
           <NuxtLink to="/clientes" class="card-footer-item has-text-link">Voltar</NuxtLink>
         </footer>
     </div>
@@ -80,22 +85,39 @@ export default {
       hasError: false,
       submitStatus: false,
       user: this.$auth.user,
-      client: null,
+      successMessage: null
     }
+  },
+  mounted(){
+    if (localStorage.successFlashMessage) {
+      this.successMessage = localStorage.successFlashMessage;
+      localStorage.removeItem('successFlashMessage')
+    }
+  },
+  async fetch() {
+    this.$repositories.clients.show(this.$route.params.id).then((res) => {
+      this.form = res.data
+    }).catch((error) => {
+      //this.$router.replace({ name: "" }); @TODO add correct route
+      // reject(error);
+      if (error.response.status == 403) {
+        console.log(`here`)
+        localStorage.warningFlashMessage = "Ops, você não deveria tentar fazer isso"
+        this.$router.push({name: 'clientes'})
+        return;
+      }
+    })
   },
   methods: {
     async store() {
+      this.successMessage = null
       this.hasError = false;
       this.errors = mapValues(this.form, () => null)
-      this.form.account_id = this.user.account_id;
-      this.$repositories.clients.create(this.form)
+      this.$repositories.clients.update(this.form.id, this.form)
       .then((res) => {
         this.client = res.data
-        // name: 'clientes-id', params : {id: client.id}
-        localStorage.successFlashMessage = "Cliente salvo!";
-        this.$router.push({name: 'clientes-id',params : {id: this.client.id}});
-
-        console.log(res)
+        this.successMessage = "Cliente atualizado com sucesso!";
+        this.$fetch()
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
@@ -109,6 +131,46 @@ export default {
         }
       })
     },
+    async trash() {
+      this.successMessage = null
+      this.$repositories.clients.delete(this.form.id)
+      .then((res) => {
+        this.client = res.data;
+        this.successMessage = "Cliente deletado, fique tranquilo, você pode ativa-lo novamente";
+        this.$fetch()
+      }).catch((error) => {
+        if (error.response) {
+          this.hasError = true;
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors
+            return;
+          }
+          if (error.response.status == 401) {
+            return;
+          }
+        }
+      })
+    },
+    async restore() {
+      this.successMessage = null
+      this.$repositories.clients.restore(this.form.id)
+      .then((res) => {
+        this.client = res.data
+        this.successMessage = "Cliente Restaurado";
+        this.$fetch()
+      }).catch((error) => {
+        if (error.response) {
+          this.hasError = true;
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors
+            return;
+          }
+          if (error.response.status == 401) {
+            return;
+          }
+        }
+      })
+    }
   }
 }
 </script>

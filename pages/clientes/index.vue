@@ -11,13 +11,33 @@
 
     <div class="is-flex mb-5 is-justify-content-space-between is-flex-wrap-wrap is-align-items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
-        <label class="block text-gray-700">Excluidos:</label>
-        <div class="control">
-          <select v-model="form.trashed" class="select">
-            <option :value="null">Sem excluidos</option>
-            <option value="with">Com excluidos</option>
-            <option value="only">Somente excluidos</option>
-          </select>
+        <div class="field">
+          <label class="label">Telefone:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.phone" placeholder="Telefone" v-mask="['(##) ####-####', '(##) #####-####']" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">E-mail:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.email" placeholder="E-mail" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Documento:</label>
+          <div class="control">
+            <input class="input" type="text" v-model="form.document" placeholder="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Excluidos:</label>
+          <div class="select">
+            <select v-model="form.trashed">
+              <option :value="null">Sem excluidos</option>
+              <option value="with">Com excluidos</option>
+              <option value="only">Somente excluidos</option>
+            </select>
+          </div>
         </div>
       </search-filter> 
       <NuxtLink to="/clientes/novo" class="button is-primary mb-2">
@@ -26,6 +46,9 @@
       </NuxtLink>
     </div>
     <div>
+      <div v-if="warningMessage" class='has-background-warning has-text-warning-dark mb-4 p-3'>
+        {{warningMessage}}
+      </div>
       <div class="table-container">
         <table class="table is-striped is-fullwidth">
           <thead>
@@ -34,13 +57,15 @@
               <th>E-mail</th>
               <th>Telefone</th>
               <th>Documento</th>
-              <th>Ação</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
               <td>
-                {{ client.name }}
+                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">
+                  {{ client.name }}
+                </nuxt-link>
               </td> 
               <td>
                 {{ client.email }}
@@ -52,7 +77,9 @@
                 {{ client.document }}
               </td>
               <td>
-                >
+                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">
+                  <fa :icon="['fas', 'chevron-right']" />
+                </nuxt-link>
               </td>
             </tr>
             <tr v-if="clients.length === 0">
@@ -86,33 +113,43 @@ export default {
       form: {
         search: "",
         trashed: "",
+        email: "",
+        phone: "",
+        document: "",
       },
       current_page: 1,
       clients: {
         data: [],
         current_page: 1,
         last_page: 10,
-      }
-
-
-
+      },
+      user: this.$auth.user,
+      warningMessage:null,
+    }
+  },
+  mounted(){
+    if (localStorage.warningFlashMessage) {
+      this.warningMessage = localStorage.warningFlashMessage;
+      localStorage.removeItem('warningFlashMessage')
     }
   },
   async fetch() {
 
     let query = {}
 
-    if(this.form.search)
-      query.search = this.form.search
-    if(this.form.trashed)
-      query.trashed = this.form.trashed
+    query.account_id = this.user.account_id
+    for (var propName in this.form) {
+      if (this.form[propName] !== ""){
+        query[propName] = this.form[propName]
+      }
+    }
     if(this.current_page)
       query.page = this.current_page
 
     this.$repositories.clients.all(query).then((res) => {
       this.clients = res.data
     }).catch((error) => {
-      this.$router.replace({ name: "dashboard.customer.account-overview" });
+      //this.$router.replace({ name: "" }); @TODO add correct route
       reject(error);
     })
   },

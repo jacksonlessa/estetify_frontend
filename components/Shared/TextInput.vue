@@ -1,9 +1,17 @@
 
 <template>
-  <div class="field">
+  <div>
     <label v-if="label" class="label" :for="id">{{ label }}:</label>
-    <input :id="id" ref="input" v-bind="$attrs" class="input" :class="{ error: error }" :type="type" :value="value" @input="$emit('input', $event.target.value)" />
-    <div v-if="error" class="help is-danger">{{ error }}</div>
+    <input 
+      :id="id" 
+      ref="input" 
+      v-bind="$attrs" 
+      class="input" 
+      :class="{ 'is-danger': errors }" 
+      :type="type" 
+      :value="value"
+      @input="$emit('input', $event.target.value)" />
+    <div v-for="error in errors" :key="error" class="help is-danger">{{ error }}</div>
   </div>
 </template>
 
@@ -23,7 +31,7 @@ export default {
     },
     value: String,
     label: String,
-    error: String,
+    errors: Array,
   },
   methods: {
     focus() {

@@ -1,4 +1,11 @@
 export default {
+
+  /*
+  ** Nuxt rendering mode
+  ** See https://nuxtjs.org/api/configuration-mode
+  */
+  mode: 'spa', 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'estetify-frontend',
@@ -23,6 +30,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~plugins/vue-the-mask',
     '~/plugins/repositories',
   ],
 
@@ -58,7 +66,8 @@ export default {
   ],
   axios: {
     baseURL: process.env.API_BASE_URL,
-    https: false
+    https: false,
+    credentials: true,
   },
   auth: {
     // Options
