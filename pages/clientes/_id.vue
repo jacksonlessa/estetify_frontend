@@ -3,7 +3,7 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
       <NuxtLink to="/clientes">
         <div class="icon-text">
-          <span class="icon">
+          <span class="icon mr-3">
             <fa :icon="['far', 'address-book']" />
           </span>
           <span>Clientes</span>
@@ -89,9 +89,8 @@ export default {
     }
   },
   mounted(){
-    if (localStorage.successFlashMessage) {
-      this.successMessage = localStorage.successFlashMessage;
-      localStorage.removeItem('successFlashMessage')
+    if (this.$route.params.msg) {
+      this.warningMessage = this.$route.params.msg;
     }
   },
   async fetch() {
@@ -101,9 +100,8 @@ export default {
       //this.$router.replace({ name: "" }); @TODO add correct route
       // reject(error);
       if (error.response.status == 403) {
-        console.log(`here`)
-        localStorage.warningFlashMessage = "Ops, você não deveria tentar fazer isso"
-        this.$router.push({name: 'clientes'})
+        let msg = "Ops, você não deveria tentar fazer isso"
+        this.$router.push({name: 'clientes', params: {msg: msg}})
         return;
       }
     })

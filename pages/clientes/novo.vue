@@ -3,7 +3,7 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <NuxtLink to="/clientes">
         <div class="icon-text">
-          <span class="icon">
+          <span class="icon mr-3">
             <fa :icon="['far', 'address-book']" />
           </span>
           <span>Clientes</span>
@@ -92,8 +92,8 @@ export default {
       .then((res) => {
         this.client = res.data
         // name: 'clientes-id', params : {id: client.id}
-        localStorage.successFlashMessage = "Cliente salvo!";
-        this.$router.push({name: 'clientes-id',params : {id: this.client.id}});
+        let msg = "Cliente salvo!";
+        this.$router.push({name: 'clientes-id',params : {msg: msg, id: this.client.id}});
 
         console.log(res)
       }).catch((error) => {

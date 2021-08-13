@@ -2,7 +2,7 @@
   <div>
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <div class="icon-text">
-        <span class="icon">
+        <span class="icon mr-3">
           <fa :icon="['far', 'address-book']" />
         </span>
         <span>Clientes</span>
@@ -82,7 +82,7 @@
                 </nuxt-link>
               </td>
             </tr>
-            <tr v-if="clients.length === 0">
+            <tr v-if="clients.data.length === 0">
               <td colspan="3">Nenhum Cliente cadastrado.</td>
             </tr>
           </tbody>
@@ -100,6 +100,7 @@
 <script>
 import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
+import {onlyAttrNotEmpty} from '@/helpers/functions'
 import SearchFilter from '@/components/Shared/SearchFilter'
 import Pagination from '@/components/Shared/Pagination'
 
@@ -128,28 +129,24 @@ export default {
     }
   },
   mounted(){
-    if (localStorage.warningFlashMessage) {
-      this.warningMessage = localStorage.warningFlashMessage;
-      localStorage.removeItem('warningFlashMessage')
+    if (this.$route.params.msg) {
+      this.warningMessage = this.$route.params.msg;
     }
   },
   async fetch() {
 
     let query = {}
 
+    query = onlyAttrNotEmpty(this.form)
+
     query.account_id = this.user.account_id
-    for (var propName in this.form) {
-      if (this.form[propName] !== ""){
-        query[propName] = this.form[propName]
-      }
-    }
+
     if(this.current_page)
       query.page = this.current_page
 
     this.$repositories.clients.all(query).then((res) => {
       this.clients = res.data
     }).catch((error) => {
-      //this.$router.replace({ name: "" }); @TODO add correct route
       reject(error);
     })
   },
