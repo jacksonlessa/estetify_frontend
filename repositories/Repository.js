@@ -1,6 +1,7 @@
 import ClientsRepository from '~/repositories/ClientsRepository';
 import ServicesRepository from '~/repositories/ServicesRepository';
 import UserRepository from '~/repositories/UserRepository';
+import ProfessionalsRepository from '~/repositories/ProfessionalsRepository';
 
 export default ($axios) => {
     if (process.browser) {
@@ -13,5 +14,6 @@ export default ($axios) => {
         clients: ClientsRepository($axios),
         services: ServicesRepository($axios),
         users: UserRepository($axios),
+        professionals: ProfessionalsRepository($axios),
     }
 }
