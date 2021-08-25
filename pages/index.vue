@@ -1,13 +1,7 @@
 <template>
   <div class="content">
-    <ul>
-      <li><fa :icon="['far','lightbulb']" /></li>
-      <li><fa :icon="['fas','lightbulb']" /></li>
-      <li><fa :icon="['fab','github']" /></li>
-      <li><fa icon="lightbulb" /></li>
-    </ul>
     <div>
-      <h3>Hi {{ user.name }}</h3>
+      <h3>Olá {{ user.name }}</h3>
 
       <a href="#" @click.prevent="logout">Sair</a>
     </div>

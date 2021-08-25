@@ -114,7 +114,9 @@ export default {
         }
       })
     },
-    async trash() {
+    async trash() {      
+      if(!confirm("Deseja deletar? Depois você pode restaurar"))
+        return false;
       this.successMessage = null
       this.$repositories.professionals.delete(this.form.id)
       .then((res) => {

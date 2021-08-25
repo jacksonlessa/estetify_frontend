@@ -133,6 +133,8 @@ export default {
       })
     },
     async trash() {
+            if(!confirm("Deseja deletar? Depois você pode restaurar"))
+        return false;
       this.successMessage = null
       this.$repositories.services.delete(this.form.id)
       .then((res) => {
