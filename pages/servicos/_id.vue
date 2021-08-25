@@ -43,10 +43,10 @@
 
         </div>
         <footer class="card-footer">
-          <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
+          <NuxtLink to="/servicos" class="card-footer-item has-text-link">Voltar</NuxtLink>
           <a @click="trash" v-if="!form.deleted_at" class="card-footer-item has-text-danger">Deletar</a>
           <a @click="restore" v-if="form.deleted_at" class="card-footer-item has-text-info">Restaurar</a>
-          <NuxtLink to="/servicos" class="card-footer-item has-text-link">Voltar</NuxtLink>
+          <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
         </footer>
     </div>
     </form>

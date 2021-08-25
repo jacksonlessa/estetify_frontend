@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
+    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
       <NuxtLink to="/servicos">
         <div class="icon-text">
           <span class="icon mr-3">
@@ -21,6 +21,9 @@
           <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
             Um ou mais erros impedem a gravação, se você acha 
           </div>
+          <div v-if="successMessage" class='has-background-success has-text-white mb-4 p-3'>
+            {{successMessage}}
+          </div>
           <div class="columns is-multiline is-tablet">
             <div class="field column py-0 is-6">
               <text-input ref="textInput" v-model.trim="form.name" :errors="errors.name" label="Nome" />
@@ -40,16 +43,14 @@
 
         </div>
         <footer class="card-footer">
-          <a @click="storeAction()" class="card-footer-item has-text-primary">Salvar e Editar</a>
-          <a @click="storeAction('new')" class="card-footer-item has-text-primary">Salvar e add Novo</a>
           <NuxtLink to="/servicos" class="card-footer-item has-text-link">Voltar</NuxtLink>
+          <a @click="storeAction('new')" class="card-footer-item has-text-primary">Salvar e Novo</a>
+          <a @click="storeAction()" class="card-footer-item has-text-primary">Salvar e Editar</a>
         </footer>
     </div>
     </form>
   </div>
 </template>
-
-
 
 <script>
 import TextInput from '@/components/Shared/TextInput'
@@ -75,7 +76,7 @@ export default {
         account_id: null,
       },
       hasError: false,
-      submitStatus: false,
+      successMessage: false,
       user: this.$auth.user,
       item: null,
       money: {
@@ -90,21 +91,22 @@ export default {
   methods: {
     async storeAction(action = 'edit') {
       this.hasError = false;
+      this.successMessage = false
       this.errors = mapValues(this.errors, () => null)
       this.form.account_id = this.user.account_id;
       let res = await this.store()
-
       if (this.hasError)
         return;
+
+      this.item = res.data
 
       if(action == 'new'){
         this.form = mapValues(this.form, () => '')
         this.$refs.textInput.$refs.input.focus()
-        // this.$nextTick(() => this.$refs.textInput.focus())
+        this.successMessage = "Serviço "+this.item.name+" salvo!";
         return;
       }
 
-      this.item = res.data
       let msg = "Serviço salvo!";
       this.$router.push({name: 'servicos-id', params : {msg: msg, id: this.item.id}});
 
@@ -115,13 +117,13 @@ export default {
         return await this.$repositories.services.create(this.form)
       }catch(error){
         this.hasError = true;
-        if (error.response.status == 422) {
+        if (error.response.status == 422)
           this.errors = error.response.data.errors
-          return;
+
+        if (error.response.status == 401){
+          //não autorizado
         }
-        if (error.response.status == 401) {
-          return;
-        }
+        return;
       }
     }
   }

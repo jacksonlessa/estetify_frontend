@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
+    <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
       <NuxtLink to="/profissionais">
         <div class="icon-text">
           <span class="icon mr-3">
@@ -34,8 +34,8 @@
 
         </div>
         <footer class="card-footer">
-          <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
           <NuxtLink to="/profissionais" class="card-footer-item has-text-link">Voltar</NuxtLink>
+          <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
         </footer>
     </div>
     </form>
