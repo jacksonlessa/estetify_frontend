@@ -15,8 +15,8 @@ export default ($axios) => ({
         return $axios.put(`auth/recover-password`, payload)
     },
 
-    update(payload) {
-        return $axios.put(`${resource}`, payload)
+    update(id, payload) {
+        return $axios.put(`${resource}/${id}`, payload)
     },
 
     delete(id) {

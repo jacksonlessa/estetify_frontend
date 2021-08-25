@@ -96,7 +96,6 @@
   </div>
 </template>
 
-
 <script>
 import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'

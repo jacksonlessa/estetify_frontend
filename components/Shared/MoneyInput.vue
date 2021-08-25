@@ -2,34 +2,32 @@
 <template>
   <div>
     <label v-if="label" class="label" :for="id">{{ label }}:</label>
-    <input 
+    <money 
       :id="id" 
-      ref="input"
+      ref="input" 
       v-bind="$attrs" 
       class="input" 
       :class="{ 'is-danger': errors }" 
-      :type="type" 
-      :value="value"
-      @input="$emit('input', $event.target.value)" />
+      @input="$emit('input', $event)" />
     <div v-for="error in errors" :key="error" class="help is-danger">{{ error }}</div>
   </div>
 </template>
 
 <script>
+import {Money} from 'v-money'
+
 export default {
+  components: {
+    Money,
+  },
   inheritAttrs: false,
   props: {
     id: {
       type: String,
       default() {
-        return `text-input-${this._uid}`
+        return `money-input-${this._uid}`
       },
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    value: String,
     label: String,
     errors: Array,
   },
