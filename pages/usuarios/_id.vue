@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
-      <NuxtLink to="/servicos">
+      <NuxtLink to="/profissionais">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['fas', 'box']" />
+            <fa :icon="['fas', 'users']" />
           </span>
-          <span>Serviços</span>
+          <span>Usuários</span>
         </div>
       </NuxtLink>
       <span class="mx-2">/</span>
@@ -29,10 +29,15 @@
               <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
             </div>
             <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.description" :errors="errors.description" label="Descrição" />
+              <text-input v-model.trim="form.email" :errors="errors.email" label="E-mail" :type="'email'" />
             </div>
+
             <div class="field column py-0 is-6">
-              <money-input v-model.trim="form.price" v-bind="money" :errors="errors.price" label="Preço" />
+              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" />
+            </div>
+
+            <div class="field column py-0 is-6">
+              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" />
             </div>
           </div>
 
@@ -43,7 +48,7 @@
 
         </div>
         <footer class="card-footer">
-          <NuxtLink to="/servicos" class="card-footer-item has-text-link">Voltar</NuxtLink>
+          <NuxtLink to="/usuarios" class="card-footer-item has-text-link">Voltar</NuxtLink>
           <a @click="trash" v-if="!form.deleted_at" class="card-footer-item has-text-danger">Deletar</a>
           <a @click="restore" v-if="form.deleted_at" class="card-footer-item has-text-info">Restaurar</a>
           <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
@@ -57,38 +62,24 @@
 
 <script>
 import TextInput from '@/components/Shared/TextInput'
-import MoneyInput from '@/components/Shared/MoneyInput'
 import mapValues from 'lodash/mapValues'
 
 export default {
   components: {
     TextInput,
-    MoneyInput,
   },
   data() {
     return {
       form: {
-        name: '',
-        description: '',
-        price: '',
+        name: '',        
       },
       errors: {
         name: null,
-        description: null,
-        price: null,
         account_id: null,
       },
       hasError: false,
       submitStatus: false,
-      user: this.$auth.user,
-      successMessage: null,
-      money: {
-        decimal: ',',
-        thousands: '.',
-        prefix: 'R$ ',
-        precision: 2,
-        masked: false
-      },
+      successMessage: null
     }
   },
   mounted(){
@@ -97,14 +88,14 @@ export default {
     }
   },
   async fetch() {
-    this.$repositories.services.show(this.$route.params.id).then((res) => {
+    this.$repositories.users.show(this.$route.params.id).then((res) => {
       this.form = res.data
     }).catch((error) => {
       //this.$router.replace({ name: "" }); @TODO add correct route
       // reject(error);
       if (error.response.status == 403) {
         let msg = "Ops, você não deveria tentar fazer isso"
-        this.$router.push({name: 'servicos', params: {msg: msg}})
+        this.$router.push({name: 'usuarios', params: {msg: msg}})
         return;
       }
     })
@@ -114,10 +105,10 @@ export default {
       this.successMessage = null
       this.hasError = false;
       this.errors = mapValues(this.form, () => null)
-      this.$repositories.services.update(this.form.id, this.form)
+      this.$repositories.users.update(this.form.id, this.form)
       .then((res) => {
         this.professional = res.data
-        this.successMessage = "Serviço atualizado com sucesso!";
+        this.successMessage = "Usuário atualizado com sucesso!";
         this.$fetch()
       }).catch((error) => {
         if (error.response) {
@@ -132,45 +123,33 @@ export default {
         }
       })
     },
-    async trash() {
+    async trash() {      
       if(!confirm("Deseja deletar? Depois você pode restaurar"))
         return false;
       this.successMessage = null
-      this.$repositories.services.delete(this.form.id)
+      this.$repositories.users.delete(this.form.id)
       .then((res) => {
         this.client = res.data;
-        this.successMessage = "Serviço deletado, fique tranquilo, você pode ativa-lo novamente";
+        this.successMessage = "Usuário deletado, fique tranquilo, você pode ativa-lo novamente";
         this.$fetch()
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors
-            return;
-          }
-          if (error.response.status == 401) {
-            return;
-          }
+          return;
         }
       })
     },
     async restore() {
       this.successMessage = null
-      this.$repositories.services.restore(this.form.id)
+      this.$repositories.users.restore(this.form.id)
       .then((res) => {
         this.client = res.data
-        this.successMessage = "Serviço Restaurado";
+        this.successMessage = "Usuário Restaurado";
         this.$fetch()
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors
-            return;
-          }
-          if (error.response.status == 401) {
-            return;
-          }
+          return;
         }
       })
     }

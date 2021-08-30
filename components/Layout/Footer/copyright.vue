@@ -1,7 +1,7 @@
 <template>
   <div class="content has-text-centered">
     <p>
-      <strong>Estetify</strong> feito com ❤ em SC e SP.
+      Estetify feito com 
     </p>
   </div>
 </template>

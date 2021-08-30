@@ -33,7 +33,7 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/clientes">
+        <NuxtLink to="/usuarios">
           <span class="icon is-small"><fa :icon="['fas', 'users']" /></span> <span class="menu-text">Usuários</span>
         </NuxtLink>
       </li>

@@ -3,9 +3,9 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <div class="icon-text">
         <span class="icon mr-3">
-          <fa :icon="['far', 'id-card']" />
+          <fa :icon="['fas', 'users']" />
         </span>
-        <span>Profissionais</span>
+        <span>Usuários</span>
       </div>
     </h1>
 
@@ -22,9 +22,9 @@
           </div>
         </div>
       </search-filter> 
-      <NuxtLink to="/profissionais/novo" class="button is-primary mb-2">
+      <NuxtLink to="/usuarios/novo" class="button is-primary mb-2">
         <span>Novo</span>
-        <span class="is-hidden-touch">&nbsp;Profissional</span>
+        <span class="is-hidden-touch">&nbsp;Usuários</span>
       </NuxtLink>
     </div>
     <div>
@@ -34,31 +34,31 @@
       <table class="table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th>Nome</th>        
+            <th>Nome</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="professional in professionals.data" :key="professional.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+          <tr v-for="item in items.data" :key="item.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
             <td>
-              <nuxt-link :to="{name: 'profissionais-id', params : {id: professional.id}}">
-                {{ professional.name }}
+              <nuxt-link :to="{name: 'usuarios-id', params : {id: item.id}}">
+                {{ item.name }}
               </nuxt-link>
             </td>
             <td>
-              <nuxt-link :to="{name: 'profissionais-id', params : {id: professional.id}}">
+              <nuxt-link :to="{name: 'usuarios-id', params : {id: item.id}}">
                 <fa :icon="['fas', 'chevron-right']" />
               </nuxt-link>
             </td>
           </tr>
-          <tr v-if="professionals.data.length === 0">
+          <tr v-if="items.data.length === 0">
             <td colspan="2">Nenhum profissional cadastrado.</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <pagination :current_page="professionals.current_page" 
-        :last_page="professionals.last_page"
+    <pagination :current_page="items.current_page" 
+        :last_page="items.last_page"
         @pageChange="pageChange"
       />
   </div>
@@ -84,10 +84,10 @@ export default {
         trashed: "",
       },
       current_page: 1,
-      professionals: {
+      items: {
         data: [],
         current_page: 1,
-        last_page: 10,
+        last_page: 1,
       },
       user: this.$auth.user,
       warningMessage:null,
@@ -109,8 +109,8 @@ export default {
     if(this.current_page)
       query.page = this.current_page
 
-    this.$repositories.professionals.all(query).then((res) => {
-      this.professionals = res.data
+    this.$repositories.users.all(query).then((res) => {
+      this.items = res.data
     }).catch((error) => {
       reject(error);
     })
@@ -122,7 +122,7 @@ export default {
     },
     pageChange(page) {
       this.current_page = page;
-      this.professionals.current_page = page;
+      this.items.current_page = page;
     }
   },
   watch: {
