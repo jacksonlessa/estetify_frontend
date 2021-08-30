@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       form: {
-        name: '',        
+        name: '',
       },
       errors: {
         name: null,
