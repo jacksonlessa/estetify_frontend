@@ -28,8 +28,8 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/clientes">
-          <span class="icon is-small"><fa :icon="['far', 'calendar-alt']" /></span> <span class="menu-text">Agenda</span>
+        <NuxtLink to="/atendimentos">
+          <span class="icon is-small"><fa :icon="['far', 'calendar-alt']" /></span> <span class="menu-text">Atendimentos</span>
         </NuxtLink>
       </li>
       <li>

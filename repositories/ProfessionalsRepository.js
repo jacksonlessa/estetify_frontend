@@ -26,4 +26,7 @@ export default ($axios) => ({
     restore(id) {
         return $axios.put(`${resource}/${id}/restore`)
     },
+    schedule(id) {
+        return $axios.get(`${resource}/${id}/schedule`)
+    },
 })
