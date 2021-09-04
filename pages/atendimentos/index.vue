@@ -59,7 +59,6 @@ import mapValues from 'lodash/mapValues'
 import TextInput from '@/components/Shared/TextInput'
 import SelectInput from '@/components/Shared/SelectInput'
 import DatetimeInput from '@/components/Shared/DatetimeInput'
-import MeetingSelector from '@/components/Shared/MeetingSelector'
 
 export default {
   components: {
