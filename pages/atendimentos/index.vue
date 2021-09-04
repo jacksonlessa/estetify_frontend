@@ -25,27 +25,18 @@
             <text-input v-model.trim="form.client" :errors="errors.client" label="Cliente" />
           </div>
           <div class="field column py-0 is-6">
-            <text-input v-model.trim="form.email" :errors="errors.email" label="Profissional" />
+            <select-input v-if="professionals" v-model="form.professional_id" :error="form.professional_id" label="Profissional">
+              <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
+              <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
+            </select-input>
           </div>
           <div class="field column py-0 is-6">
             <text-input v-model.trim="form.service" :errors="errors.service" label="Serviços" />
           </div>
           <div class="field column py-0 is-6">
-            <text-input v-model.trim="form.date" :errors="errors.date" label="Data e hora" />
+            <datetime-input v-model.trim="form.datetime" :errors="errors.datetime" label="Data e hora" />
           </div>
-
-
-         
-          <div class="column is-12">
-          <button class="is-2" @click="loadSchedule" >load schedule</button>
-          <pre class="is-12">{{schedule}}</pre>
-
-          </div>
-
-
-          <div class="column is-6">
-            <meeting-selector/>
-          </div>
+          
         </div>
 
         <div v-for="error in errors.account_id" :key="error" class='has-background-danger has-text-white mb-4 p-3'>
@@ -66,11 +57,15 @@
 <script>
 import mapValues from 'lodash/mapValues'
 import TextInput from '@/components/Shared/TextInput'
+import SelectInput from '@/components/Shared/SelectInput'
+import DatetimeInput from '@/components/Shared/DatetimeInput'
 import MeetingSelector from '@/components/Shared/MeetingSelector'
 
 export default {
   components: {
     TextInput,
+    SelectInput,
+    DatetimeInput,
     MeetingSelector
   },
   data() {
@@ -78,31 +73,39 @@ export default {
       form: {
         client: '',
         name: '',
-        password: ''
+        datetime: new Date(),
       },
       errors: {
         client: null,
         name: null,
+        datetime: ["some dummy error","another dummy error"]
       },
+      minDateTime: new Date(),
       hasError: false,
       errorMessage: '',
-      submitStatus: false,
       user: this.$auth.user,
       item: null,
-      schedule: null,
+      professionals: null
     }
+  },
+  mounted(){
+    this.loadProfessionals()
+    
   },
   methods: {
     async store() {
       this.hasError = false;
       this.errors = mapValues(this.errors, () => null)
     },
-    async loadSchedule() {
-      this.$repositories.professionals.schedule(11).then((res) => {
-      this.schedule = res.data
-    }).catch((error) => {
-      console.log(error.response)
-    })
+    async loadProfessionals() {
+      this.$repositories.professionals.all([]).then((res) => {
+        this.professionals = res.data.data
+        if (this.professionals.length == 1){
+          this.form.professional_id = this.professionals[0].id
+        }
+      }).catch((error) => {
+        console.log(error.response)
+      })
     }
   }
 }

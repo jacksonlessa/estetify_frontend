@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// TODO Converter para buefy
 import {Money} from 'v-money'
 
 export default {

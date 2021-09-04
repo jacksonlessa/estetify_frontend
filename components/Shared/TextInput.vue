@@ -1,18 +1,14 @@
 
 <template>
-  <div>
-    <label v-if="label" class="label" :for="id">{{ label }}:</label>
-    <input 
+  <b-field :label="label"
+  :type="{ 'is-danger': errors }"
+  :message="errors">
+    <b-input 
       :id="id" 
       ref="input"
-      v-bind="$attrs" 
-      class="input" 
-      :class="{ 'is-danger': errors }" 
       :type="type" 
-      :value="value"
-      @input="$emit('input', $event.target.value)" />
-    <div v-for="error in errors" :key="error" class="help is-danger">{{ error }}</div>
-  </div>
+      v-model="inputValue" />
+  </b-field>
 </template>
 
 <script>
@@ -33,6 +29,11 @@ export default {
     label: String,
     errors: Array,
   },
+  data() {
+    return {      
+      inputValue: this.value,
+    }
+  },
   methods: {
     focus() {
       this.$refs.input.focus()
@@ -44,5 +45,10 @@ export default {
       this.$refs.input.setSelectionRange(start, end)
     },
   },
+  watch: {
+    inputValue: function() {
+      this.$emit('input', this.inputValue)
+    }
+  }
 }
 </script>

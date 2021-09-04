@@ -32,6 +32,7 @@ export default {
   plugins: [
     '~plugins/vue-the-mask',
     '~/plugins/repositories',
+    '~/plugins/buefy',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -62,7 +63,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    ['nuxt-buefy', { css: false, materialDesignIcons: true }],
   ],
   axios: {
     baseURL: process.env.API_BASE_URL,

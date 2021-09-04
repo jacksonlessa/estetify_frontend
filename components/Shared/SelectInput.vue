@@ -1,14 +1,15 @@
 <template>
-  <div>
-    <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <select :id="id" ref="input" v-model="selected" v-bind="$attrs" class="form-select" :class="{ error: error }">
+  <b-field :label="label"
+    :type="{ 'is-danger': errors }"
+    :message="errors">
+    <b-select :id="id" ref="input" v-model="selected" v-bind="$attrs" expanded>
       <slot />
-    </select>
-    <div v-if="error" class="form-error">{{ error }}</div>
-  </div>
+    </b-select>
+  </b-field>
 </template>
 
 <script>
+// TODO Converter para buefy
 export default {
   inheritAttrs: false,
   props: {
