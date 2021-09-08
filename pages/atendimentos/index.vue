@@ -87,8 +87,12 @@
                 </thead>
                 <tbody>
                   <tr v-for="service in servicesSelected" :key="service.id">
-                    <td>
-                      {{service.name}}
+                    <td class="is-vertical-align-middle">
+                      <span class="tag is-medium">
+                        {{service.name}}
+                        <!-- TODO add remover serviço da listagem de serviços -->
+                        <!-- <a role="button" class="delete is-small"></a> -->
+                      </span>
                     </td>
                     <td>
                       <money-input v-model.trim="form.services[service.id.toString()]" v-bind="money"/>
@@ -96,11 +100,6 @@
                   </tr>
                 </tbody>
               </table>
-              <ul>
-                <li v-for="service in servicesSelected" :key="service.id">
-                  {{service.name}} - {{service.price | price }}
-                </li>
-              </ul>
             </div>
             
           </div>
