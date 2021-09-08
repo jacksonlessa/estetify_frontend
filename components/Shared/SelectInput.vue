@@ -21,7 +21,7 @@ export default {
     },
     value: [String, Number, Boolean],
     label: String,
-    error: String,
+    errors: Array,
   },
   data() {
     return {

@@ -22,19 +22,97 @@
         </div>
         <div class="columns is-multiline is-tablet">
           <div class="field column py-0 is-6">
-            <text-input v-model.trim="form.client" :errors="errors.client" label="Cliente" />
+            <b-field label="Cliente"
+              :type="{ 'is-danger': errors.client_id }"
+              :message="errors.client_id"
+            >
+              <b-autocomplete
+                  :data="clients"
+                  placeholder="Procurar cliente por nome, telefone, e-mail"
+                  icon="magnify"
+                  clearable
+                  field="name"
+                  :loading="isFetching"
+                  @typing="getAsyncClients"
+                  @select="option => clientSelected  = option">
+                  <template slot-scope="props">
+                    <div class="media">
+                      <div class="media-content">
+                        {{ props.option.name }}
+                        <br>
+                        <small>
+                          <b>Telefone:</b> {{ props.option.phone }},
+                          <b>E-mail:</b> {{ props.option.email }}
+                        </small>
+                      </div>
+                    </div>
+                  </template>
+                  <template #empty>Nenhum resultado encontrado</template>
+              </b-autocomplete>
+            </b-field>
           </div>
           <div class="field column py-0 is-6">
-            <select-input v-if="professionals" v-model="form.professional_id" :error="form.professional_id" label="Profissional">
+            <select-input v-if="professionals" v-model="form.professional_id" :errors="errors.professional_id" label="Profissional">
               <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
               <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
             </select-input>
           </div>
           <div class="field column py-0 is-6">
-            <text-input v-model.trim="form.service" :errors="errors.service" label="Serviços" />
+            <b-field label="Serviços"
+              :type="{ 'is-danger': errors.services }"
+              :message="errors.services">
+              <b-taginput
+                v-model="servicesSelected"
+                :data="services"
+                autocomplete
+                field="name"
+                icon="label"
+                placeholder="Adicionar serviços"
+                @typing="getAsyncServices">
+                <template v-slot="props">
+                    <strong>{{props.option.name}}</strong>: {{props.option.price | price}}
+                </template>
+                <template #empty>
+                    Nenhum servio encontrado
+                </template>
+              </b-taginput>
+            </b-field>
+            <div>
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Serviço</th>
+                    <th>Preço</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="service in servicesSelected" :key="service.id">
+                    <td>
+                      {{service.name}}
+                    </td>
+                    <td>
+                      <money-input v-model.trim="form.services[service.id.toString()]" v-bind="money"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ul>
+                <li v-for="service in servicesSelected" :key="service.id">
+                  {{service.name}} - {{service.price | price }}
+                </li>
+              </ul>
+            </div>
+            
           </div>
           <div class="field column py-0 is-6">
-            <datetime-input v-model.trim="form.datetime" :errors="errors.datetime" label="Data e hora" />
+            <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
+            <div>
+              Confira outros atendimentos que você possui para evitar conflitos:
+              <table>
+
+              </table>
+
+            </div>
           </div>
           
         </div>
@@ -55,46 +133,78 @@
 
 
 <script>
-import mapValues from 'lodash/mapValues'
-import TextInput from '@/components/Shared/TextInput'
+import {mapValues,debounce} from 'lodash' 
+// TODO converter para filtro global - ver repo vue2Filters
+import {currencyStyle} from "@/helpers/functions"
 import SelectInput from '@/components/Shared/SelectInput'
 import DatetimeInput from '@/components/Shared/DatetimeInput'
+import MoneyInput from '@/components/Shared/MoneyInput'
 
 export default {
   components: {
-    TextInput,
     SelectInput,
     DatetimeInput,
-    MeetingSelector
+    MoneyInput
   },
   data() {
     return {
       form: {
-        client: '',
-        name: '',
-        datetime: new Date(),
+        client_id: '',
+        professional_id: '',
+        scheduled_at: new Date(),
+        services: []
       },
       errors: {
-        client: null,
-        name: null,
-        datetime: ["some dummy error","another dummy error"]
+        account_id: null,
+        client_id: null,
+        professional_id: null,
+        scheduled_at: null
       },
       minDateTime: new Date(),
       hasError: false,
       errorMessage: '',
       user: this.$auth.user,
       item: null,
-      professionals: null
+      professionals: null,
+      clients:[],
+      clientSelected: null,
+      servicesSelected: [],
+      services: [],
+      isFetching: false,
+      selected: null,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        precision: 2,
+        masked: false
+      },
     }
   },
   mounted(){
     this.loadProfessionals()
-    
+    this.load
   },
   methods: {
     async store() {
       this.hasError = false;
       this.errors = mapValues(this.errors, () => null)
+      this.$repositories.schedule.create(this.form)
+      .then((res) => {
+        this.item = res.data
+        console.log(res.data)
+      }).catch((error) => {
+        if (error.response) {
+          this.hasError = true;
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors
+            return;
+          }
+          if (error.response.status == 401) {
+            return;
+          }
+        }
+      })
     },
     async loadProfessionals() {
       this.$repositories.professionals.all([]).then((res) => {
@@ -105,6 +215,84 @@ export default {
       }).catch((error) => {
         console.log(error.response)
       })
+    },
+    getAsyncClients: debounce(function (clientName) {
+      if (!clientName.length) {
+        this.clients = []
+        return
+      }
+      this.isFetching = true
+      let query = {
+        search : clientName
+      }
+
+      this.$repositories.clients.all(query)
+      .then(({ data }) => {
+          this.clients = []
+          data.data.forEach((item) => this.clients.push(item))
+      })
+      .catch((error) => {
+          this.clients = []
+          throw error
+      })
+      .finally(() => {
+          this.isFetching = false
+      })
+    }, 500),
+    getAsyncServices: debounce(function (serviceName) {
+      if (!serviceName.length) {
+        this.services = []
+        return
+      }
+      this.isFetching = true
+      let query = {
+        search : serviceName
+      }
+
+      this.$repositories.services.all(query)
+      .then(({ data }) => {
+          this.services = []
+          data.data.forEach((item) => this.services.push(item))
+      })
+      .catch((error) => {
+          this.services = []
+          throw error
+      })
+      .finally(() => {
+          this.isFetching = false
+      })
+    }, 500),
+
+    
+  },
+  filters: {
+    price: function (val){
+      return currencyStyle(val)
+    }
+  },
+  watch:{
+    servicesSelected: function(){
+      // mount new list of services
+      let arrServices = new Object()
+      this.servicesSelected.forEach(service => {
+        console.log(service.id.toString())
+        arrServices[service.id.toString()] = service.price        
+      });
+
+      // get actual list
+      let old = this.form.services
+      let key = false
+      // update prices with custom price
+      for(key in old){
+        if(arrServices[key])
+         arrServices[key] = old[key]
+      }
+      this.form.services = arrServices
+    },
+    clientSelected: function(){
+      this.form.client_id = null
+      if(this.clientSelected)
+        this.form.client_id = this.clientSelected.id
     }
   }
 }

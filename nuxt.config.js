@@ -32,7 +32,6 @@ export default {
   plugins: [
     '~plugins/vue-the-mask',
     '~/plugins/repositories',
-    '~/plugins/buefy',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
