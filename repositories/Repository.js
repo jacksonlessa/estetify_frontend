@@ -1,8 +1,8 @@
 import ClientsRepository from '~/repositories/ClientsRepository';
 import ServicesRepository from '~/repositories/ServicesRepository';
-import UserRepository from '~/repositories/UserRepository';
+import UsersRepository from '~/repositories/UsersRepository';
 import ProfessionalsRepository from '~/repositories/ProfessionalsRepository';
-import ScheduleRepository from '~/repositories/ScheduleRepository';
+import OrdersRepository from '~/repositories/OrdersRepository';
 
 export default ($axios) => {
     if (process.browser) {
@@ -14,8 +14,8 @@ export default ($axios) => {
     return {
         clients: ClientsRepository($axios),
         services: ServicesRepository($axios),
-        users: UserRepository($axios),
+        users: UsersRepository($axios),
         professionals: ProfessionalsRepository($axios),
-        schedule: ScheduleRepository($axios),
+        orders: OrdersRepository($axios),
     }
 }

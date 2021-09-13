@@ -9,7 +9,6 @@
 </template>
 
 <script>
-// TODO Converter para buefy
 export default {
   inheritAttrs: false,
   props: {

@@ -1,4 +1,4 @@
-const resource = '/api/schedules'
+const resource = '/api/orders'
 
 export default ($axios) => ({
     all(params) {
@@ -25,8 +25,5 @@ export default ($axios) => ({
 
     restore(id) {
         return $axios.put(`${resource}/${id}/restore`)
-    },
-    schedule(id) {
-        return $axios.get(`${resource}/${id}/schedule`)
     },
 })

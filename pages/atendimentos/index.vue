@@ -63,12 +63,12 @@
               :message="errors.services">
               <b-taginput
                 v-model="servicesSelected"
-                :data="services"
+                :data="filteredServices"
                 autocomplete
                 field="name"
                 icon="label"
                 placeholder="Adicionar serviços"
-                @typing="getAsyncServices">
+                @typing="getFilteredServices">
                 <template v-slot="props">
                     <strong>{{props.option.name}}</strong>: {{props.option.price | price}}
                 </template>
@@ -95,7 +95,7 @@
                       </span>
                     </td>
                     <td>
-                      <money-input v-model.trim="form.services[service.id.toString()]" v-bind="money"/>
+                      <money-input v-model.trim="form.services[service.id.toString()].price" v-bind="money"/>
                     </td>
                   </tr>
                 </tbody>
@@ -132,7 +132,7 @@
 
 
 <script>
-import {mapValues,debounce} from 'lodash' 
+import {mapValues,debounce,sumBy} from 'lodash' 
 // TODO converter para filtro global - ver repo vue2Filters
 import {currencyStyle} from "@/helpers/functions"
 import SelectInput from '@/components/Shared/SelectInput'
@@ -151,6 +151,7 @@ export default {
         client_id: '',
         professional_id: '',
         scheduled_at: new Date(),
+        total: 0,
         services: []
       },
       errors: {
@@ -167,10 +168,10 @@ export default {
       professionals: null,
       clients:[],
       clientSelected: null,
-      servicesSelected: [],
       services: [],
+      filteredServices: [],
+      servicesSelected: [],
       isFetching: false,
-      selected: null,
       money: {
         decimal: ',',
         thousands: '.',
@@ -182,13 +183,21 @@ export default {
   },
   mounted(){
     this.loadProfessionals()
-    this.load
+    this.loadServices()
   },
   methods: {
     async store() {
       this.hasError = false;
       this.errors = mapValues(this.errors, () => null)
-      this.$repositories.schedule.create(this.form)
+      
+      this.form.total = 0;
+      for (let x in this.form.services){
+        this.form.total += this.form.services[x].price
+      }
+      
+      
+      
+      this.$repositories.orders.create(this.form)
       .then((res) => {
         this.item = res.data
         console.log(res.data)
@@ -211,6 +220,13 @@ export default {
         if (this.professionals.length == 1){
           this.form.professional_id = this.professionals[0].id
         }
+      }).catch((error) => {
+        console.log(error.response)
+      })
+    },
+    async loadServices() {
+      this.$repositories.services.all([]).then((res) => {
+        this.services = res.data.data
       }).catch((error) => {
         console.log(error.response)
       })
@@ -238,29 +254,14 @@ export default {
           this.isFetching = false
       })
     }, 500),
-    getAsyncServices: debounce(function (serviceName) {
-      if (!serviceName.length) {
-        this.services = []
-        return
-      }
-      this.isFetching = true
-      let query = {
-        search : serviceName
-      }
-
-      this.$repositories.services.all(query)
-      .then(({ data }) => {
-          this.services = []
-          data.data.forEach((item) => this.services.push(item))
+    getFilteredServices(text) {
+      this.filteredServices = this.services.filter((option) => {
+        return option.name
+          .toString()
+          .toLowerCase()
+          .indexOf(text.toLowerCase()) >= 0
       })
-      .catch((error) => {
-          this.services = []
-          throw error
-      })
-      .finally(() => {
-          this.isFetching = false
-      })
-    }, 500),
+    },
 
     
   },
@@ -274,8 +275,10 @@ export default {
       // mount new list of services
       let arrServices = new Object()
       this.servicesSelected.forEach(service => {
-        console.log(service.id.toString())
-        arrServices[service.id.toString()] = service.price        
+        arrServices[service.id.toString()] = {
+          original_price : service.price,
+          price : service.price
+        }
       });
 
       // get actual list
@@ -284,7 +287,7 @@ export default {
       // update prices with custom price
       for(key in old){
         if(arrServices[key])
-         arrServices[key] = old[key]
+         arrServices[key].price = old[key].price
       }
       this.form.services = arrServices
     },
