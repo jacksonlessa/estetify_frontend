@@ -31,11 +31,8 @@
 </template>
 
 <script>
-import throttle from 'lodash/throttle'
 
 export default {
-  components: {
-  },
   inheritAttrs: false,
   props: {
     id: {
