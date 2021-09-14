@@ -1,7 +1,7 @@
 <template>
   <div class="content has-text-centered">
     <p>
-      Estetify feito com 
+      Estetify, feito com <i class="mdi mdi-heart mdi-12px"></i>
     </p>
   </div>
 </template>
