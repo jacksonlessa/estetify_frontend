@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {detectBrowser} from "@/helpers/functions"
 
 export default {
   layout: 'centered',
@@ -49,7 +50,7 @@ export default {
         data: {
           email: this.email,
           password: this.password,
-          device_name: 'simplebrowser'
+          device_name: detectBrowser()+" - "+navigator.platform
         },
       })
 
