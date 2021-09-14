@@ -158,7 +158,8 @@ export default {
         account_id: null,
         client_id: null,
         professional_id: null,
-        scheduled_at: null
+        scheduled_at: null,
+        services: null
       },
       minDateTime: new Date(),
       hasError: false,
