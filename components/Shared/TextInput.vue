@@ -7,7 +7,8 @@
       :id="id" 
       ref="input"
       :type="type" 
-      v-model="inputValue" />
+      v-model="inputValue" 
+      v-bind="$attrs"/>
   </b-field>
 </template>
 
