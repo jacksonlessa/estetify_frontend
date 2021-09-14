@@ -1,4 +1,4 @@
-const resource = '/api/services'
+const resource = '/services'
 
 export default ($axios) => ({
     all(params) {
