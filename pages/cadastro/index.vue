@@ -42,6 +42,7 @@ export default {
       form: {
         name: '',
         password: null,
+        device_name: detectBrowser()+" - "+navigator.platform
         
       },
       errors: {
@@ -53,6 +54,10 @@ export default {
       isLoading: false
     }
   },
+  mounted() {
+    console.log(this.$auth.strategy)
+    this.$auth.strategy.token.reset()
+  },
   methods: {
     async register() {
       try{
@@ -60,17 +65,12 @@ export default {
         this.isLoading = true
         this.erros = mapValues(this.erros, () => null)
         await this.$axios.$get('../sanctum/csrf-cookie');
-        const user = await this.$axios.post('register', this.form)
+        const res = await this.$axios.post('register', this.form)
 
-        console.log("res: ", user)
-        if (user.status == 201){
-          let login = await this.$auth.loginWith('laravelSanctum', {
-            data: {
-              email: this.form.email,
-              password: this.form.password,
-              device_name: detectBrowser()+" - "+navigator.platform
-            },
-          })
+        console.log("res: ", res)
+        if (res.status == 201){          
+          this.$auth.setUserToken(res.data.token)
+          
           return this.$router.push('/cadastro/conta')
         }
         

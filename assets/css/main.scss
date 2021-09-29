@@ -4,7 +4,9 @@
 @import "~buefy/src/scss/buefy";
 
 
-
+html{
+  background: $white-ter;
+}
 .is-vertical-align-middle{
   vertical-align: middle !important;
 }

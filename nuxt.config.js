@@ -4,7 +4,8 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  mode: 'spa', 
+  // mode: 'spa', 
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -84,13 +85,13 @@ export default {
         },
         endpoints:{
           login: {
-            url: '/api/login',
+            url: '/v1/login',
             propertyName: 'token'
           },
           logout: {
-            url: '/api/logout'
+            url: '/v1/logout'
           },
-          user: { url: '/api/user', method: 'get' }
+          user: { url: '/v1/user', method: 'get' }
         },
 
       },

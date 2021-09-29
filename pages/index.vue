@@ -1,10 +1,8 @@
 <template>
-  <div class="content">
-    <div>
-      <h3>Olá {{ user.name }}</h3>
+  <div>
+    <h3>Olá {{ user.name }}</h3>
 
-      <a href="#" @click.prevent="logout">Sair</a>
-    </div>
+    <a href="#" @click.prevent="logout">Sair</a>
   </div>
 </template>
 

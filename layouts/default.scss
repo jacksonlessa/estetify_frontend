@@ -1,197 +1,140 @@
-@import "../assets/css/variables";
+@import "@/assets/css/_variables";
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 56px;
-  z-index: 20;
-}
-.navbar-menu .nav-tag {
-  position: relative;
-  .icon{
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: 50%;
-  }
-  .counter{
-    border-radius: 50%;
-    position: absolute;
-    top: 5px;
-    @media (min-width: 1024px){
-      right: 0px;
-    }
-  }
-}
-.wrapper {
-  height: 100vh;
-}
-
-.aside {
-  background: $white;
-	padding: 2em .5em 0 .5em;
-  height: calc(100vh - 64px);
-  overflow: hidden;
-  transition: 0.2s width ease-out;
-  position: fixed;
-  top: 56px;
-  left: 0;
-  z-index: 2;
-	width: 250px;
-  box-shadow: 2px 0 0 0 whitesmoke;
-
-  #sidebar-toggler {
-    width: 100%;
-    cursor: pointer;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    background-color: $primary;
-    padding: 1rem 2rem;
+.main_container{
+  overflow-x: hidden;
+  @include from($tablet) {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;  
+  }
+}
+.main{
+  @include from($tablet) {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+}
 
-    .icon {
-      transition: 0.3s linear transform;
-    }
-
-	}
-
-  a {
-    color: $text;
+.head{
+  
+  @include from($tablet) {
+    display: flex;
+    flex-shrink: 0;
   }
 
-  .menu-list {
-    li {
-      margin-top: .5em;
+  .logo{
+    background-color: $primary;
 
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .has-children {
-      max-height: 36px;
-      overflow: hidden;
-      transition: 0.6s max-height ease-out;
-      position: relative;
-
-      >a {
-        position: relative;
-      }
-
-      >a::before {
-        content: "\f107";
-        font-family: "FontAwesome";
-        transition: .2s ease-out transform;
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-45%);
-        transform-origin: center;
-        transition-duration: 0.3s;
-      }
-    }
-
-    .has-children.open {
-      max-height: 1000px;
-
-      >a::before {
-        transform: rotate(-180deg) translateY(40%);
-      }
-    }
-
-    .icon,
-    i {
-      margin-right: 10px;
-      margin-left: 5px;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    
+    @include from($tablet) {
+      
+      width: $md-sidebar-width;
+      flex-shrink: 0;
+      justify-content: center;
     }
   }
-
-  &.closed {
-    width: 60px;
-
-    .menu-label,
-    .menu-text {
+  .hamburger-menu{
+    @include from($tablet) {
       display: none;
     }
+  }
+  .navbar{   
+    box-sizing: border-box; 
+    border: 0 solid #e2e8f0;
+    background: $white;    
+    border-bottom-width: 1px;
 
-    .has-children {
-      >a::before {
-        opacity: 0;
-      }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    font-size: .875rem;
+    line-height: 1.25rem;
+    
+    width: 100%;
+    padding: 1rem;
+    
+    @include from($tablet) {
+      padding-top: 0;
+      padding-bottom: 0;
+      
+      padding-left: 3rem;
+      padding-right: 3rem;
     }
-
-    #sidebar-toggler {
-      justify-content: center;
-
-      .icon {
-        transform: rotate(180deg);
-        margin-right: 8px;
-      }
-    }
-
-	}
-
-	// on mobile only
-	@media (max-width: 768px) {
-		width: 60px;
-		overflow: auto;
-
-		#sidebar-toggler {
-			display: none;
-		}
-
-		&:not(:hover){
-			.menu-label,
-			.menu-text {
-				display: none;
-			}
-			.menu-list {
-				.has-children {
-					max-height: 36px;
-
-					>a::before {
-						opacity: 0;
-					}
-				}
-			}
-		}
-
-		&:hover{
-			width: 250px;
-		}
-	}
-}
-
-.main{
-  padding: 80px 1em 50px 260px;
-  min-height: calc(100vh);
-  transition: 0.2s all ease-out;
-
-  &.sidebar-closed{
-    padding: 80px 1em 50px 75px;
   }
 
-  @media (max-width: 768px) {
-		padding: 80px 1em 68px 75px;
-	}
-}
-.copyright{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 250px;
-  height: 48px;
-  z-index: 20;
-  font-size: .7rem;
-  display: flex;
-  align-items: center;
-  transition: 0.2s all ease-out;
-  padding-left: 10px;
-  &.sidebar-closed{
-    left: 60px;
-  }
-
-  @media (max-width: 768px) {
+  .sidebar-mob{
+    visibility: hidden;
+    position: absolute;
+    top: 84px;
+    bottom: 0;
     left: 0;
-	}
+    right: 0;
+    z-index: 100;
+    background: rgb(0, 0, 0, 0);
+    display: flex;
+    justify-content: flex-end;
+    
+    transition: background 500ms;
+
+    .menu-panel{
+      background: white;  
+      max-width: 100%;
+      padding: 2rem;
+      padding-right: 3rem;
+      transition: all 300ms 200ms;      
+      transform: translate(100%, 0);
+    }
+
+    &.is-active{
+      visibility: visible;
+      background: rgb(0, 0, 0, 0.6);
+      .menu-panel{
+        transform: translate(0, 0);
+      }
+    }
+  }
+}
+.body{
+  @include from($tablet) {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  .sidebar{
+    background: $white-bis;
+    display: none;
+    
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding: 2rem;
+    width: $md-sidebar-width;
+    @include from($tablet){
+      display: block;
+    }
+  }
+  .content{
+    @include overflow-touch();
+    background: $white-ter;
+    
+    padding-left: 1rem;
+    padding-right: 1rem;    
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    
+    @include from($tablet){
+      flex: 1 1 0%;    
+      overflow-y: auto;  
+      padding: 3rem;
+    }
+  }
+
 }
