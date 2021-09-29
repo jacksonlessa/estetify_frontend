@@ -22,7 +22,7 @@
         </div>
         <div class="navbar">
           <span>
-            Nome da conta do usuário
+            {{user.account.name}}
           </span>
 
           <div class="" id="user-nav"  v-bind:class="{'is-active': isUserMenuActive}">
@@ -42,7 +42,7 @@
               <div class="dropdown-trigger">
                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
                   <span>
-                      Olá, {{ user.name }}
+                      Olá, {{ userFirstName }}
                   </span>
                   <span class="icon is-small">
                     <fa :icon="['fas','angle-down']" />
@@ -105,7 +105,13 @@ export default {
     return {
       isMenuActive: false,
       isUserMenuActive: false,
-      user: this.$auth.user,
+      user: this.$store.state.auth.user,
+    }
+  },
+  computed: {
+    // a computed getter
+    userFirstName: function () {
+      return this.user.name.split(" ")[0]
     }
   },
   methods: {

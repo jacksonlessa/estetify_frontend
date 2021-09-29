@@ -6,6 +6,9 @@
 
 html{
   background: $white-ter;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .is-vertical-align-middle{
   vertical-align: middle !important;

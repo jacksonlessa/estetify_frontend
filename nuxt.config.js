@@ -9,9 +9,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'estetify-frontend',
+    title: 'Estetify App',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'pt-br',
+      class: 'full-height'
     },
     meta: [
       { charset: 'utf-8' },
@@ -91,7 +92,7 @@ export default {
           logout: {
             url: '/v1/logout'
           },
-          user: { url: '/v1/user', method: 'get' }
+          user: { url: '/v1/user/profile', method: 'get' }
         },
 
       },

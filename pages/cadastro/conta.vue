@@ -87,6 +87,7 @@ export default {
         console.log(res)
         if (res.status == 201){          
           // return this.$router.push('/cadastro/plano')
+          await this.$auth.fetchUser()
           return this.$router.push('/')
         }
         
