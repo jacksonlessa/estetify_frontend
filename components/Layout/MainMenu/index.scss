@@ -1,0 +1,9 @@
+@import "@/assets/css/_variables.scss";
+
+.menu{
+  .exact-match.nuxt-link-exact-active,
+  .simple-match.nuxt-link-active{
+    background: $primary;
+    color: white;
+  }
+}
