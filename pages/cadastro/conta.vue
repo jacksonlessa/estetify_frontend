@@ -47,7 +47,6 @@ import mapValues from 'lodash/mapValues'
 
 export default {
   layout: 'centered',
-  auth: true,
   components: {
     TextInput,
     SelectInput,

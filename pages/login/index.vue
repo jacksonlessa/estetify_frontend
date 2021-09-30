@@ -54,6 +54,9 @@ export default {
           device_name: detectBrowser()+" - "+navigator.platform
         },
       })
+      console.log("passou pelo login")
+      console.log(this.$auth.user)
+      console.log(this.$auth.isLogged)
 
      this.$router.push('/')
     },
