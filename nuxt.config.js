@@ -68,7 +68,7 @@ export default {
     ['nuxt-buefy', { css: false, materialDesignIcons: true }],
   ],
   axios: {
-    baseURL: process.env.API_BASE_URL,
+    baseURL: process.env.API_BASE_URL+"/v1/",
     https: false,
     credentials: true,
   },
