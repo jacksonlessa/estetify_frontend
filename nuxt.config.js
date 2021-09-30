@@ -77,7 +77,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost',
+        url: process.env.API_BASE_URL,
         token: {
           property: 'token',
           global: true,
@@ -86,13 +86,13 @@ export default {
         },
         endpoints:{
           login: {
-            url: '/v1/login',
+            url: '/login',
             propertyName: 'token'
           },
           logout: {
-            url: '/v1/logout'
+            url: '/logout'
           },
-          user: { url: '/v1/user/profile', method: 'get' }
+          user: { url: '/user/profile', method: 'get' }
         },
 
       },
