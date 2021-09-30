@@ -36,6 +36,7 @@ import {detectBrowser} from "@/helpers/functions"
 
 export default {
   layout: 'centered',
+  auth: false,
   components: {
   },
   data() {

@@ -32,6 +32,7 @@ import ConectedUser from "@/components/Helpers/ConectedUser"
 import IndicatorCard from "@/components/Layout/IndicatorCard"
 
 export default {
+  auth: false,
   components: {
     FirstSteps,
     ConectedUser,
