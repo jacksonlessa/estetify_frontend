@@ -86,13 +86,13 @@ export default {
         },
         endpoints:{
           login: {
-            url: '/login',
+            url: '/v1/login',
             propertyName: 'token'
           },
           logout: {
-            url: '/logout'
+            url: '/v1/logout'
           },
-          user: { url: '/user/profile', method: 'get' }
+          user: { url: '/v1/user/profile', method: 'get' }
         },
 
       },
