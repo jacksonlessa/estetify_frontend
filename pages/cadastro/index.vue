@@ -69,7 +69,7 @@ export default {
 
         console.log("res: ", res)
         if (res.status == 201){          
-          this.$auth.setUserToken(res.data.token)
+          await this.$auth.setUserToken(res.data.token)
           
           return this.$router.push('/cadastro/conta')
         }
