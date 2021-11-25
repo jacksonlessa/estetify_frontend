@@ -22,7 +22,7 @@
           </div>
         </div>
       </search-filter> 
-      <NuxtLink to="/profissionais/novo" class="button is-primary mb-2">
+      <NuxtLink to="/usuarios/novo" class="button is-primary mb-2">
         <span>Novo</span>
         <span class="is-hidden-touch">&nbsp;Profissional</span>
       </NuxtLink>

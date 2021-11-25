@@ -22,7 +22,7 @@
             Um ou mais erros impedem a gravação, se você acha 
           </div>
           <div class="columns is-multiline is-tablet">
-            <div class="field column py-0 is-6">
+            <div class="field column pb-0 is-6">
               <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
             </div>
           </div>

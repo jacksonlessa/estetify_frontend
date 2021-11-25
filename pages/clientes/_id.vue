@@ -25,17 +25,17 @@
             Um ou mais erros impedem a gravação, se você acha 
           </div>
           <div class="columns is-multiline is-tablet">
-            <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
+            <div class="field column pb-0 is-6">
+              <text-input v-model.trim="form.name" :value="form.name" :errors="errors.name" label="Nome" />
             </div>
-            <div class="field column py-0 is-6">
-              <text-input v-model="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
+            <div class="field column pb-0 is-6">
+              <text-input v-model="form.phone" :value="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
             </div>
-            <div class="field column py-0 is-6">
-              <text-input v-model="form.email" :errors="errors.email" label="E-mail" />
+            <div class="field column pb-0 is-6">
+              <text-input v-model="form.email" :value="form.email" :errors="errors.email" label="E-mail" />
             </div>
-            <div class="field column py-0 is-6">
-              <text-input v-model="form.document" :errors="errors.document" label="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']"/>
+            <div class="field column pb-0 is-6">
+              <text-input v-model="form.document" :value="form.document" :errors="errors.document" label="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']"/>
             </div>
           </div>
 

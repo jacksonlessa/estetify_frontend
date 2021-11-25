@@ -25,18 +25,24 @@
             Um ou mais erros impedem a gravação, se você acha 
           </div>
           <div class="columns is-multiline is-tablet">
-            <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
+            <div class="field column pb-0 is-6">
+              <text-input v-model.trim="form.name" :value="form.name" :errors="errors.name" label="Nome" />
             </div>
-            <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.email" :errors="errors.email" label="E-mail" :type="'email'" />
+            <div class="field column pb-0 is-6">
+              <text-input v-model.trim="form.role" :errors="errors.role" label="Papel" />
+            </div>
+            <div class="field column pb-0 is-6">
+              <text-input v-model.trim="form.email" :value="form.email" :errors="errors.email" label="E-mail" :type="'email'" />
+            </div>
+            <div class="field column pb-0 is-12">
+              <hr />
             </div>
 
-            <div class="field column py-0 is-6">
+            <div class="field column pb-0 is-6">
               <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" />
             </div>
 
-            <div class="field column py-0 is-6">
+            <div class="field column pb-0 is-6">
               <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" />
             </div>
           </div>

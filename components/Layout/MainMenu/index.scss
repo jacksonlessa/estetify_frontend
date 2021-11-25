@@ -1,9 +1,19 @@
 @import "@/assets/css/_variables.scss";
 
 .menu{
+  .menu-label{
+    color: $grey-dark;
+    font-weight: 600;
+  }
+  a{
+    color: $grey-light;
+    &:hover{
+      color: $primary;
+    }
+  }
   .exact-match.nuxt-link-exact-active,
   .simple-match.nuxt-link-active{
-    background: $primary;
-    color: white;
+    color: $primary;
+    // color: white;
   }
 }

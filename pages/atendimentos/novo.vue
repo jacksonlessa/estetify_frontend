@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
-      <NuxtLink to="/atendimnetos">
+      <NuxtLink to="/atendimentos">
         <div class="icon-text">
           <span class="icon mr-3">
             <fa :icon="['far', 'calendar-alt']" />
@@ -21,43 +21,62 @@
           
         </div>
         <div class="columns is-multiline is-tablet">
-          <div class="field column py-0 is-6">
-            <b-field label="Cliente"
-              :type="{ 'is-danger': errors.client_id }"
-              :message="errors.client_id"
-            >
-              <b-autocomplete
-                  :data="clients"
-                  placeholder="Procurar cliente por nome, telefone, e-mail"
-                  icon="magnify"
-                  clearable
-                  field="name"
-                  :loading="isFetching"
-                  @typing="getAsyncClients"
-                  @select="option => clientSelected  = option">
-                  <template slot-scope="props">
-                    <div class="media">
-                      <div class="media-content">
-                        {{ props.option.name }}
-                        <br>
-                        <small>
-                          <b>Telefone:</b> {{ props.option.phone }},
-                          <b>E-mail:</b> {{ props.option.email }}
-                        </small>
-                      </div>
-                    </div>
-                  </template>
-                  <template #empty>Nenhum resultado encontrado</template>
-              </b-autocomplete>
-            </b-field>
+          <div class="field column is-6">
+            <div class="columns is-multiline is-tablet">
+               <div class="field column pb-0 is-12">
+                <b-field label="Cliente"
+                  :type="{ 'is-danger': errors.client_id }"
+                  :message="errors.client_id"
+                >
+                  <b-autocomplete
+                      :data="clients"
+                      placeholder="Procurar cliente por nome, telefone, e-mail"
+                      icon="magnify"
+                      clearable
+                      field="name"
+                      :loading="isFetching"
+                      @typing="getAsyncClients"
+                      @select="option => clientSelected  = option">
+                      <template slot-scope="props">
+                        <div class="media">
+                          <div class="media-content">
+                            {{ props.option.name }}
+                            <br>
+                            <small>
+                              <b>Telefone:</b> {{ props.option.phone }},
+                              <b>E-mail:</b> {{ props.option.email }}
+                            </small>
+                          </div>
+                        </div>
+                      </template>
+                      <template #empty>Nenhum resultado encontrado</template>
+                  </b-autocomplete>
+                </b-field>
+              </div>
+              <div class="field column pb-0 is-12">
+                <select-input v-if="professionals" v-model="form.user_id" :errors="errors.professional_id" label="Profissional">
+                  <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
+                  <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
+                </select-input>
+              </div>
+            </div>
           </div>
-          <div class="field column py-0 is-6">
-            <select-input v-if="professionals" v-model="form.professional_id" :errors="errors.professional_id" label="Profissional">
-              <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
-              <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
-            </select-input>
+          <div class="field column is-6">
+            <div class="columns is-multiline is-tablet">
+              <div class="field column pb-0 is-12">
+                <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
+                <!-- <div>
+                  Confira outros atendimentos que você possui para evitar conflitos:
+                  <table>
+
+                  </table>
+
+                </div> -->
+              </div>
+            </div>
           </div>
-          <div class="field column py-0 is-6">
+
+          <div class="field column pb-0 is-12">
             <b-field label="Serviços"
               :type="{ 'is-danger': errors.services }"
               :message="errors.services">
@@ -103,16 +122,6 @@
             </div>
             
           </div>
-          <div class="field column py-0 is-6">
-            <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
-            <div>
-              Confira outros atendimentos que você possui para evitar conflitos:
-              <table>
-
-              </table>
-
-            </div>
-          </div>
           
         </div>
 
@@ -149,7 +158,7 @@ export default {
     return {
       form: {
         client_id: '',
-        professional_id: '',
+        user_id: '',
         scheduled_at: new Date(),
         total: 0,
         services: []
@@ -157,7 +166,7 @@ export default {
       errors: {
         account_id: null,
         client_id: null,
-        professional_id: null,
+        user_id: null,
         scheduled_at: null,
         services: null
       },
@@ -219,7 +228,7 @@ export default {
       this.$repositories.professionals.all([]).then((res) => {
         this.professionals = res.data.data
         if (this.professionals.length == 1){
-          this.form.professional_id = this.professionals[0].id
+          this.form.user_id = this.professionals[0].id
         }
       }).catch((error) => {
         console.log(error.response)

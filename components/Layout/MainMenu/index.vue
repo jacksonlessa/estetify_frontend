@@ -24,7 +24,7 @@
         </NuxtLink>
       </li>
       <li class="mb-3">
-        <NuxtLink to="/atendimentos" class="simple-match">
+        <NuxtLink to="/atendimentos/novo" class="simple-match">
           <span class="icon is-small"><fa :icon="['far', 'calendar-alt']" /></span> <span class="menu-text">Atendimentos</span>
         </NuxtLink>
       </li>

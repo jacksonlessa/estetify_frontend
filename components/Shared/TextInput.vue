@@ -26,12 +26,12 @@ export default {
       type: String,
       default: 'text',
     },
-    value: String,
+    value: [String, Number],
     label: String,
     errors: Array,
   },
   data() {
-    return {      
+    return {
       inputValue: this.value,
     }
   },
@@ -49,7 +49,13 @@ export default {
   watch: {
     inputValue: function() {
       this.$emit('input', this.inputValue)
-    }
+    },
+    value: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        this.inputValue = newVal;
+      }
+    },
   }
 }
 </script>

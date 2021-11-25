@@ -11,7 +11,7 @@
         <li><a class="pagination-link is-current" :aria-label="'Página atual: '+current_page" aria-current="página">{{current_page}}</a></li>
         <li v-if="current_page+1<=last_page"><a class="pagination-link" @click="$emit('pageChange',current_page+1)" :aria-label="'ir para página '+current_page+1">{{current_page+1}}</a></li>
         <li v-if="current_page+3<=last_page"><span class="pagination-ellipsis">&hellip;</span></li>
-        <li v-if="current_page+2<=last_page"><a class="pagination-link" :aria-label="'ir para página '+last_page">{{last_page}}</a></li>
+        <li v-if="current_page+2<=last_page"><a class="pagination-link" @click="$emit('pageChange',last_page)" :aria-label="'ir para página '+last_page">{{last_page}}</a></li>
       </ul>
     </nav>
   </div>

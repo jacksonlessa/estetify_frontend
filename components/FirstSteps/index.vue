@@ -9,10 +9,6 @@
         Cadastre seu primeiro&nbsp;<nuxt-link to="/servicos">serviço</nuxt-link>
 
       </label>
-      <label class="panel-block">
-        <input type="checkbox">
-        Cadastre seu primeiro&nbsp;<nuxt-link to="/profissionais">profisisonal</nuxt-link>
-      </label>
       <label class="panel-block checked">
         <input type="checkbox" checked>
         Cadastre seu primeiro&nbsp;<nuxt-link to="/clientes">cliente</nuxt-link>

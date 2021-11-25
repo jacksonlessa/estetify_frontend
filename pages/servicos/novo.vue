@@ -25,14 +25,14 @@
             {{successMessage}}
           </div>
           <div class="columns is-multiline is-tablet">
-            <div class="field column py-0 is-6">
+            <div class="field column pb-0 is-6">
               <text-input ref="textInput" v-model.trim="form.name" :errors="errors.name" label="Nome" />
             </div>
-            <div class="field column py-0 is-6">
-              <text-input v-model.trim="form.description" :errors="errors.description" label="Descrição" />
-            </div>
-            <div class="field column py-0 i s-6">
+            <div class="field column pb-0 is-6">
               <money-input v-model.trim="form.price" v-bind="money" :errors="errors.price" label="Preço" />
+            </div>
+            <div class="field column pb-0 ">
+              <text-input v-model.trim="form.description" :errors="errors.description" label="Descrição" />
             </div>
           </div>
 
