@@ -19,6 +19,9 @@
       <div class="column is-9-desktop">
         <div class="card">
           <div class="card-content">
+            <div v-if="successMessage" class='has-background-success has-text-white mb-4 p-3'>
+              {{successMessage}}
+            </div>
             <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
               {{errorMessage ? errorMessage : 'Um ou mais erros impedem a gravação, se você acha '}}
               
@@ -194,6 +197,7 @@ export default {
         user_id: '',
         total: 0,
       },
+      successMessage: null,
       formOriginal: {},
       errors: {
         account_id: null,
@@ -227,6 +231,9 @@ export default {
     }
   },
   mounted(){
+    if (this.$route.params.msg) {
+      this.successMessage = this.$route.params.msg;
+    }
   },
   async fetch() {
     await this.loadServices()
@@ -254,12 +261,14 @@ export default {
   },
   methods: {
     async store() {
+      this.successMessage = null
       this.hasError = false;
       this.errors = mapValues(this.errors, () => null)
 
       this.$repositories.orders.update(this.form.id,this.form)
       .then((res) => {
         this.item = res.data
+        this.successMessage = "Atendimento atualizado com sucesso!";
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
@@ -271,6 +280,7 @@ export default {
             return;
           }
         }
+        console.log(error)
       })
     },
     async loadProfessionals() {

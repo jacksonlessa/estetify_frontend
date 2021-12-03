@@ -233,7 +233,8 @@ export default {
       this.$repositories.orders.create(this.form)
       .then((res) => {
         this.item = res.data
-        console.log(res.data)
+        let msg = "Atendimento agendado!";
+        this.$router.push({name: 'atendimentos-id',params : {msg: msg, id: this.item.id}});
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
@@ -300,7 +301,6 @@ export default {
   },
   computed: {
     orderTotal: function(){
-      console.log(this.form.services)
       let sum = 0;
       let x = 0;
       for(x in this.form.services){
@@ -345,7 +345,6 @@ export default {
     'form.services': {
       deep:true,
       handler(services){
-        console.log(services)
         let key=0;
         let total = 0;
         for(key in services){

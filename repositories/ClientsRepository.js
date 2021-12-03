@@ -6,7 +6,6 @@ export default ($axios) => ({
             params
         })
     },
-
     create(payload) {
         return $axios.post(`${resource}`, payload)
     },
