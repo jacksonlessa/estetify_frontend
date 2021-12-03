@@ -29,7 +29,15 @@
               <text-input v-model.trim="form.name" :value="form.name" :errors="errors.name" label="Nome" />
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.role" :errors="errors.role" label="Papel" />
+              <b-field label="Papel"
+                :type="{ 'is-danger': errors.role }"
+                :message="errors.role">
+                <b-select v-model="form.role" expanded>
+                  <option>Selecione</option>
+                  <option value="admin">Admin</option>
+                  <option value="professional">Profissional</option>
+                </b-select>
+              </b-field>
             </div>
             <div class="field column pb-0 is-6">
               <text-input v-model.trim="form.email" :value="form.email" :errors="errors.email" label="E-mail" :type="'email'" />

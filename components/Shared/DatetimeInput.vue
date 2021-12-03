@@ -3,18 +3,25 @@
   <b-field :label="label"
     :type="{ 'is-danger': errors }"
     :message="errors">
-    <b-datetimepicker v-model="datetime"
-    :locale="locale"
-    :min-datetime="minDateTime"
-    :timepicker="timepicker"
-    placeholder=""
-    >
+    
+    <b-datetimepicker 
+      v-model="datetime"
+      ref="scheduled_at_calendar"
+      :locale="locale"
+      :min-datetime="minDateTime"
+      :timepicker="timepicker"
+      placeholder=""
+      icon="calendar-today"
+      :icon-right="datetime ? 'close-circle' : ''"
+      icon-right-clickable
+      @icon-right-click="datetime = null"
+      >
 
       <template #left>
           <b-button
-              label="Agora"
+              :label="'Agora'"
               type="is-primary"
-              icon-left="clock"
+              :icon-left="'clock'"
               @click="datetime = new Date()" />
       </template>
 
@@ -41,14 +48,14 @@ export default {
         return `text-input-${this._uid}`
       },
     },
-    value: Date,
+    defaultValue: Date,
     label: String,
     errors: Array,
-    minDateTime: Date
+    minDateTime: Date,
   },
   data() {
     return {
-      datetime: this.value,
+      datetime: null,
       locale: "pt-BR",
       timepicker: {
         incrementMinutes: 10,
@@ -65,15 +72,20 @@ export default {
     setSelectionRange(start, end) {
       this.$refs.input.setSelectionRange(start, end)
     },
-    onChage() {
-      
+    onChange() {
       // console.log(e)
     },
+    clearDateTime () {
+      this.selected = null
+    }
   },
   watch: {
     datetime: function() {
       this.$emit('input', this.datetime)
-    }
+    },
+    defaultValue: function() {
+      this.datetime = this.defaultValue
+    },
   }
 }
 </script>

@@ -118,6 +118,7 @@ export default {
         client_name: "",
         schedule_range: [ new Date(), new Date() ]
       },
+      locale: "pt-BR",
       current_page: 1,
       orders: {
         data: [],

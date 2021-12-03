@@ -10,11 +10,12 @@
         </div>
       </NuxtLink>
       <span class="mx-2">/</span>
-      <span>
-        Novo
+      <span v-if="!isLoading">
+        {{form.client.name.split(" ")[0]}} {{scheduledParsed}}
       </span>
     </h1>
-     <div class="columns is-desktop">
+
+    <div class="columns  is-desktop">
       <div class="column is-9-desktop">
         <div class="card">
           <div class="card-content">
@@ -22,7 +23,8 @@
               {{errorMessage ? errorMessage : 'Um ou mais erros impedem a gravação, se você acha '}}
               
             </div>
-            <div class="columns is-multiline is-mobile">
+            <b-loading :is-full-page="false" v-model="isLoading" :can-cancel="true"></b-loading>
+            <div class="columns is-multiline is-tablet">
               <div class="field column is-6">
                 <div class="columns is-multiline is-tablet">
                   <div class="field column pb-0 is-12">
@@ -32,6 +34,7 @@
                     >
                       <b-autocomplete
                           :data="clients"
+                          ref="autocomplete"
                           placeholder="Procurar cliente por nome, telefone, e-mail"
                           icon="magnify"
                           clearable
@@ -66,7 +69,7 @@
               <div class="field column is-6">
                 <div class="columns is-multiline is-tablet">
                   <div class="field column pb-0 is-12">
-                    <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
+                    <datetime-input v-model.trim="form.scheduled_at" :defaultValue="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
                     <!-- <div>
                       Confira outros atendimentos que você possui para evitar conflitos:
                       <table>
@@ -85,6 +88,7 @@
                   <b-taginput
                     v-model="servicesSelected"
                     :data="filteredServices"
+                    ref="servicos"
                     autocomplete
                     field="name"
                     icon="label"
@@ -117,7 +121,7 @@
                           </span>
                         </td>
                         <td class="is-vertical-align-middle">
-                            {{form.services[service.id.toString()]  .original_price | price}}
+                            {{form.services[service.id.toString()].original_price | price}}
                         </td>
                         <td>
                           <money-input v-model.trim="form.services[service.id.toString()].price" v-bind="money"/>
@@ -146,6 +150,7 @@
       <div class="column is-3-desktop">
         <div class="card">
           <div class="card-content">
+            <b-loading :is-full-page="false" v-model="isLoading" :can-cancel="true"></b-loading>
             <b-field label="Status"
               :type="{ 'is-danger': errors.status }"
               :message="errors.status">
@@ -186,13 +191,10 @@ export default {
   data() {
     return {
       form: {
-        client_id: '',
         user_id: '',
-        scheduled_at: new Date(),
         total: 0,
-        status: "open",
-        services: []
       },
+      formOriginal: {},
       errors: {
         account_id: null,
         client_id: null,
@@ -211,7 +213,6 @@ export default {
       services: [],
       filteredServices: [],
       servicesSelected: [],
-      isFetching: false,
       money: {
         decimal: ',',
         thousands: '.',
@@ -219,21 +220,46 @@ export default {
         precision: 2,
         masked: false
       },
+      isLoading: true,
+      isFetching: false,
+      servicesListed: false,
+      servicesSet: false,
     }
   },
   mounted(){
-    this.loadProfessionals()
-    this.loadServices()
+  },
+  async fetch() {
+    await this.loadServices()
+    this.loadProfessionals();
+    this.$repositories.orders.show(this.$route.params.id).then((res) => {
+      let data = res.data
+      data.scheduled_at = new Date(data.scheduled_at)
+      this.form = data
+      this.formOriginal = data
+      this.originalTotal = data.total
+      this.isLoading = false;
+      this.setAutocompleteValue(this.form.client)
+      this.setServicosValue(this.formOriginal.services)
+
+    }).catch((error) => {
+      console.log(error)
+      //this.$router.replace({ name: "" }); @TODO add correct route
+      // reject(error);
+      if (error.response.status == 403) {
+        let msg = "Ops, você não deveria tentar fazer isso"
+        this.$router.push({name: 'profissionais', params: {msg: msg}})
+        return;
+      }
+    })
   },
   methods: {
     async store() {
       this.hasError = false;
       this.errors = mapValues(this.errors, () => null)
 
-      this.$repositories.orders.create(this.form)
+      this.$repositories.orders.update(this.form.id,this.form)
       .then((res) => {
         this.item = res.data
-        console.log(res.data)
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
@@ -258,8 +284,9 @@ export default {
       })
     },
     async loadServices() {
-      this.$repositories.services.all([]).then((res) => {
+      await this.$repositories.services.all([]).then((res) => {
         this.services = res.data.data
+        return res.data.data
       }).catch((error) => {
         console.log(error.response)
       })
@@ -296,16 +323,38 @@ export default {
       })
     },
 
-    
+    setAutocompleteValue(value) {
+      this.$refs.autocomplete.setSelected(value)
+    },
+
+    setServicosValue(services){
+      let ids = [];
+      services.forEach((value) => {
+        ids.push(value.pivot.service_id)
+      })
+      const selected = this.services.filter(function (res) {
+        return ids.includes(res.id);
+      })
+      this.servicesSelected = selected;
+    },
+
+    setOriginalTotalValue: debounce(function () {
+      this.servicesSet = true;
+      this.form.total = this.originalTotal
+    }, 500),
   },
   computed: {
+    scheduledParsed: function(){
+      const date = new Date(this.form.scheduled_at)
+      return date.toLocaleString("pt-BR")
+    },
     orderTotal: function(){
-      console.log(this.form.services)
       let sum = 0;
       let x = 0;
-      for(x in this.form.services){
-        sum += this.form.services[x].price
-      }
+      if(!this.isLoading)
+        for(x in this.form.services){
+          sum += this.form.services[x].price
+        }
 
       return sum;
     }
@@ -332,7 +381,16 @@ export default {
       // update prices with custom price
       for(key in old){
         if(arrServices[key])
-         arrServices[key].price = old[key].price
+          arrServices[key].price = old[key].price
+      }
+
+      // get originalForm in the first time
+      if(!this.servicesListed){
+        this.formOriginal.services.forEach((value) => {
+          arrServices[value.pivot.service_id].price = value.pivot.price
+          arrServices[value.pivot.service_id].original_price = value.pivot.original_price
+        })
+        this.servicesListed=true
       }
 
       this.form.services = arrServices
@@ -345,15 +403,18 @@ export default {
     'form.services': {
       deep:true,
       handler(services){
-        console.log(services)
         let key=0;
         let total = 0;
         for(key in services){
           total += parseFloat(services[key].price)
         }
         this.form.total = total
+
+        if(!this.servicesSet) {//after first set update total value to original
+          this.setOriginalTotalValue()
+        }
       }
-    }
+    },
   }
 }
 </script>
