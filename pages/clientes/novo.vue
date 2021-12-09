@@ -26,6 +26,9 @@
               <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
             </div>
             <div class="field column pb-0 is-6">
+              <text-input v-model="form.birthdate" :errors="errors.birthdate" label="Data de Aniversario" v-mask="['##/##/####']"/>
+            </div>
+            <div class="field column pb-0 is-6">
               <text-input v-model="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
             </div>
             <div class="field column pb-0 is-6">

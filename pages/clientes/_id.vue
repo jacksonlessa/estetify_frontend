@@ -29,6 +29,9 @@
               <text-input v-model.trim="form.name" :value="form.name" :errors="errors.name" label="Nome" />
             </div>
             <div class="field column pb-0 is-6">
+              <text-input v-model="form.birthdate" :errors="errors.birthdate" label="Data de Aniversário" v-mask="['##/##/####']"/>
+            </div>
+            <div class="field column pb-0 is-6">
               <text-input v-model="form.phone" :value="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
             </div>
             <div class="field column pb-0 is-6">
@@ -92,7 +95,7 @@ export default {
     if (this.$route.params.msg) {
       this.warningMessage = this.$route.params.msg;
     }
-  },
+  }, 
   async fetch() {
     this.$repositories.clients.show(this.$route.params.id).then((res) => {
       this.form = res.data

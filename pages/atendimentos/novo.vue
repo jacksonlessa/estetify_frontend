@@ -20,68 +20,52 @@
           <div class="card-content">
             <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
               {{errorMessage ? errorMessage : 'Um ou mais erros impedem a gravação, se você acha '}}
-              
             </div>
-            <div class="columns is-multiline is-mobile">
-              <div class="field column is-6">
-                <div class="columns is-multiline is-tablet">
-                  <div class="field column pb-0 is-12">
-                    <b-field label="Cliente"
-                      :type="{ 'is-danger': errors.client_id }"
-                      :message="errors.client_id"
-                    >
-                      <b-autocomplete
-                          :data="clients"
-                          placeholder="Procurar cliente por nome, telefone, e-mail"
-                          icon="magnify"
-                          clearable
-                          field="name"
-                          :loading="isFetching"
-                          @typing="getAsyncClients"
-                          @select="option => clientSelected  = option">
-                          <template slot-scope="props">
-                            <div class="media">
-                              <div class="media-content">
-                                {{ props.option.name }}
-                                <br>
-                                <small>
-                                  <b>Telefone:</b> {{ props.option.phone }},
-                                  <b>E-mail:</b> {{ props.option.email }}
-                                </small>
-                              </div>
-                            </div>
-                          </template>
-                          <template #empty>Nenhum resultado encontrado</template>
-                      </b-autocomplete>
-                    </b-field>
-                  </div>
-                  <div class="field column pb-0 is-12">
-                    <select-input v-if="professionals" v-model="form.user_id" :errors="errors.professional_id" label="Profissional">
-                      <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
-                      <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
-                    </select-input>
-                  </div>
-                </div>
+            <div class="columns is-multiline is-tablet">
+              <div class="field column pb-0 is-6">
+                <b-field label="Cliente"
+                  :type="{ 'is-danger': errors.client_id }"
+                  :message="errors.client_id"
+                >
+                  <b-autocomplete
+                      :data="clients"
+                      placeholder="Procurar cliente por nome, telefone, e-mail"
+                      icon="magnify"
+                      clearable
+                      field="name"
+                      :loading="isFetching"
+                      @typing="getAsyncClients"
+                      @select="option => clientSelected  = option">
+                      <template slot-scope="props">
+                        <div class="media">
+                          <div class="media-content">
+                            {{ props.option.name }}
+                            <br>
+                            <small>
+                              <b>Telefone:</b> {{ props.option.phone }},
+                              <b>E-mail:</b> {{ props.option.email }}
+                            </small>
+                          </div>
+                        </div>
+                      </template>
+                      <template #empty>Nenhum resultado encontrado</template>
+                  </b-autocomplete>
+                </b-field>
               </div>
-              <div class="field column is-6">
-                <div class="columns is-multiline is-tablet">
-                  <div class="field column pb-0 is-12">
-                    <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
-                    <!-- <div>
-                      Confira outros atendimentos que você possui para evitar conflitos:
-                      <table>
 
-                      </table>
+              <div class="field column pb-0 is-6">
+                <datetime-input v-model.trim="form.scheduled_at" :errors="errors.scheduled_at" label="Data e hora" />
+                <!-- <div>
+                  Confira outros atendimentos que você possui para evitar conflitos:
+                  <table>
 
-                    </div> -->
-                  </div>
-                </div>
+                  </table>
+
+                </div> -->
               </div>
 
               <div class="field column pb-0 is-12">
-                <b-field label="Serviços"
-                  :type="{ 'is-danger': errors.services }"
-                  :message="errors.services">
+                <b-field label="Serviços">
                   <b-taginput
                     v-model="servicesSelected"
                     :data="filteredServices"
@@ -98,37 +82,31 @@
                     </template>
                   </b-taginput>
                 </b-field>
-                <div>
-                  <table class="table is-fullwidth">
-                    <thead>
-                      <tr>
-                        <th>Serviço</th>
-                        <th>Preço Original</th>
-                        <th>Preço</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="service in servicesSelected" :key="service.id">
-                        <td class="is-vertical-align-middle">
-                          <span class="tag is-medium">
-                            {{service.name}}
-                            <!-- TODO add remover serviço da listagem de serviços -->
-                            <!-- <a role="button" class="delete is-small"></a> -->
-                          </span>
-                        </td>
-                        <td class="is-vertical-align-middle">
-                            {{form.services[service.id.toString()]  .original_price | price}}
-                        </td>
-                        <td>
-                          <money-input v-model.trim="form.services[service.id.toString()].price" v-bind="money"/>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+
+
+                <div class="field column pb-0 is-12">
+                  <div class="columns is-tablet has-background-white-bis" v-for="service in servicesSelected" :key="service.id">
+                    <div class="column is-4">
+                      <text-input v-model="service.name" label="Serviço" disabled />
+                    </div>
+                    <div class="column is-4">
+                      <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional">
+                        <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
+                        <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
+                      </select-input>
+                    </div>  
+                    <div class="column is-4">
+                      <money-input label="Preço" v-model.trim="form.services[service.id.toString()].price" v-bind="money"/>
+                    </div>
+                  </div>
                 </div>
                 
+                <div class="field column pb-0 is-12">
+                  <text-input v-model="form.observation" :errors="errors.observation" label="Observação" />
+                </div>
               </div>
-              
+
+
             </div>
 
             <div v-for="error in errors.account_id" :key="error" class='has-background-danger has-text-white mb-4 p-3'>
@@ -155,12 +133,23 @@
                 <option value="cancelled">Cancelado</option>
               </b-select>
             </b-field>
+             <b-field label="Forma de Pagamento"
+              :type="{ 'is-danger': errors.payment_method }"
+              :message="errors.payment_method">
+              <b-select v-model="form.payment_method" expanded>
+                <option value="">Selecione</option>
+                <option value="boleto">Boleto</option>
+                <option value="debito">Debito</option>
+                <option value="credito">Crédito</option>
+                <option value="pix">PIX</option>
+              </b-select>
+            </b-field>
             <b-field label="Valor">
               <div>
                 {{orderTotal|price}}
               </div>
             </b-field>
-            <money-input label="Valor Total" v-model.trim="form.total" v-bind="money"/>
+            <!-- <money-input label="Valor Total" v-model.trim="form.total" v-bind="money"/> -->
           </div>
         </div>
       </div>
@@ -174,6 +163,7 @@ import {mapValues,debounce,sumBy} from 'lodash'
 // TODO converter para filtro global - ver repo vue2Filters
 import {currencyStyle} from "@/helpers/functions"
 import SelectInput from '@/components/Shared/SelectInput'
+import TextInput from '@/components/Shared/TextInput'
 import DatetimeInput from '@/components/Shared/DatetimeInput'
 import MoneyInput from '@/components/Shared/MoneyInput'
 
@@ -181,7 +171,8 @@ export default {
   components: {
     SelectInput,
     DatetimeInput,
-    MoneyInput
+    MoneyInput,
+    TextInput
   },
   data() {
     return {
@@ -191,6 +182,7 @@ export default {
         scheduled_at: new Date(),
         total: 0,
         status: "open",
+        payment_method: "",
         services: []
       },
       errors: {
@@ -319,10 +311,16 @@ export default {
     servicesSelected: function(){
       // mount new list of services
       let arrServices = new Object()
+      let errServices = new Object()
       this.servicesSelected.forEach(service => {
         arrServices[service.id.toString()] = {
           original_price : service.price,
-          price : service.price
+          price : service.price,
+          professional_id : this.professionals.length==1 ? this.professionals[0].id : "",
+        }
+        errServices[service.id.toString()] = {
+          professional_id: null,
+          price: null
         }
       });
 
@@ -334,8 +332,10 @@ export default {
         if(arrServices[key])
          arrServices[key].price = old[key].price
       }
+      console.log(arrServices)
 
       this.form.services = arrServices
+      this.errors.services = errServices
     },
     clientSelected: function(){
       this.form.client_id = null

@@ -34,8 +34,8 @@
                 :message="errors.role">
                 <b-select v-model="form.role" expanded>
                   <option>Selecione</option>
-                  <option value="admin">Admin</option>
-                  <option value="professional">Profissional</option>
+                  <option value="admin">Administrador</option>
+                  <option value="receptionist">Recepcionista</option>
                 </b-select>
               </b-field>
             </div>
