@@ -2,10 +2,10 @@
   <section class="page has-background-primary is-fullheight">
     <div class="page-body">
       <div class="container">
-        <div class="columns is-mobile is-centered">
-          <div class="column is-one-third-desktop is-half-tablet">
+        <div class="columns is-centered">
+          <div class="custom-column">
             <div class="has-text-centered mb-4">
-              <NuxtLink to="/">
+              <NuxtLink to="/" class="is-center">
                 <Logo color="is-white"/>
               </NuxtLink>
             </div>

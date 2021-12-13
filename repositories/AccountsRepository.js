@@ -11,6 +11,10 @@ export default ($axios) => ({
         return $axios.post(`${resource}`, payload)
     },
 
+    selectPlan(payload){
+        return $axios.post(`${resource}/plan`, payload)
+    },
+
     show(id) {
         return $axios.get(`${resource}/${id}`)
     },

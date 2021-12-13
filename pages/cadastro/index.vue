@@ -22,7 +22,7 @@
       </div>
       <!-- <button class="button is-primary">Enviar</button> -->
     </form>
-    <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="true"></b-loading>
+    <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -66,8 +66,7 @@ export default {
         this.erros = mapValues(this.erros, () => null)
         await this.$axios.$get('../sanctum/csrf-cookie');
         const res = await this.$axios.post('register', this.form)
-
-        console.log("res: ", res)
+        
         if (res.status == 201){          
           await this.$auth.setUserToken(res.data.token)
           

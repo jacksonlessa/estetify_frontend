@@ -98,7 +98,6 @@ export default {
         let msg = "Cliente salvo!";
         this.$router.push({name: 'clientes-id',params : {msg: msg, id: this.client.id}});
 
-        console.log(res)
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;

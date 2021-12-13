@@ -24,7 +24,7 @@
           </div>
           <div class="columns is-multiline is-tablet">
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" />
+              <text-input v-model.trim="form.name" :errors="errors.name" label="Nome" autocomplete="off"/>
             </div>
             <div class="field column pb-0 is-6">
               <b-field label="Papel"
@@ -38,17 +38,17 @@
               </b-field>
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.email" :errors="errors.email" label="E-mail" :type="'email'" />
+              <text-input v-model.trim="form.email" :errors="errors.email" label="E-mail" :type="'email'" autocomplete="off"/>
             </div>
             <div class="field column pb-0 is-12">
               <hr />
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" />
+              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" autocomplete="off"/>
             </div>
 
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" />
+              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" autocomplete="off"/>
             </div>
           </div>
 
@@ -104,8 +104,6 @@ export default {
         // name: 'clientes-id', params : {id: client.id}
         let msg = "Profissional salvo!";
         this.$router.push({name: 'usuario-id', params : {msg: msg, id: this.professional.id}});
-
-        console.log(res)
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;

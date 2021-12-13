@@ -7,6 +7,9 @@
       </ul>
     </div>
     <form method="post" @submit.prevent="login">
+      <div v-if="errorMessage" class='has-background-danger has-text-white mb-4 p-3'>
+        {{errorMessage}}
+      </div>
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
@@ -17,7 +20,7 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input class="input" type="password" v-model="password" required placeholder="********">
+          <text-input v-model.trim="password" :type="'password'" required placeholder="********" password-reveal/>
         </div>
       </div>
 
@@ -27,39 +30,68 @@
           Esqueci minha senha
         </NuxtLink>
       </div>
+      <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
     </form>
   </div>
 </template>
 
 <script>
-import {detectBrowser} from "@/helpers/functions"
+import {detectBrowser} from "@/helpers/functions";
+
+import TextInput from '@/components/Shared/TextInput'
 
 export default {
   layout: 'centered',
   auth: false,
   components: {
+    TextInput,
   },
   data() {
     return {
       email: '',
       password: '',
+      errorMessage: '',
+      isLoading: false,
     }
   },
   methods: {
     async login() {
-      await this.$auth.loginWith('laravelSanctum', {
-        data: {
-          email: this.email,
-          password: this.password,
-          device_name: detectBrowser()+" - "+navigator.platform
-        },
-      })
-      console.log("passou pelo login")
-      console.log(this.$auth.user)
-      console.log(this.$auth.isLogged)
+      try{
+        this.isLoading = true;
+        await this.$auth.loginWith('laravelSanctum', {
+          data: {
+            email: this.email,
+            password: this.password,
+            device_name: detectBrowser()+" - "+navigator.platform
+          },
+        }).then(() => this.handleLogin())
+        
+        
+      }catch (e) {
+        console.log('Error Response', e.response)
+        if(e.response.statusText == "Unauthorized"){
+          this.errorMessage = "Dados de acesso inválidos"
+        }else{
+          this.errorMessage = e.response.statusText
+        }
+      } 
+      
+      this.isLoading = false;
 
-     this.$router.push('/')
     },
+    async handleLogin() {
+      this.isLoading = false;
+
+      if(this.$auth.user.account_id){ // if has account
+        if(this.$auth.user.account.plan_id){ // if has a plan
+          this.$router.push('/')
+        }else{
+          this.$router.push('/cadastro/plano')
+        }
+      }else{
+        this.$router.push('/cadastro/conta')
+      }
+    }
   },
 }
 </script>

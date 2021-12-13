@@ -26,7 +26,7 @@
               {{errorMessage ? errorMessage : 'Um ou mais erros impedem a gravação, se você acha '}}
               
             </div>
-            <b-loading :is-full-page="false" v-model="isLoading" :can-cancel="true"></b-loading>
+            <b-loading :is-full-page="false" v-model="isLoading"></b-loading>
             <div class="columns is-multiline is-tablet">
               <div class="field column pb-0 is-6">
                 <b-field label="Cliente"
@@ -126,7 +126,7 @@
       <div class="column is-3-desktop">
         <div class="card">
           <div class="card-content">
-            <b-loading :is-full-page="false" v-model="isLoading" :can-cancel="true"></b-loading>
+            <b-loading :is-full-page="false" v-model="isLoading"></b-loading>
             <b-field label="Status"
               :type="{ 'is-danger': errors.status }"
               :message="errors.status">

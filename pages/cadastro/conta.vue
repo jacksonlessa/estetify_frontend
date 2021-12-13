@@ -3,7 +3,7 @@
     <form @submit.prevent="registerAccount">
       <div class="tabs is-fullwidth">
         <ul>
-          <li class="is-active"><NuxtLink to="/cadastro">Cadastro da conta</NuxtLink></li>
+          <li class="is-active"><NuxtLink to="/cadastro/conta">Cadastro da conta</NuxtLink></li>
         </ul>
       </div>
       <b-message v-if="this.errorMsg" type="is-warning">
@@ -36,7 +36,7 @@
 
       <!-- <button class="button is-primary">Enviar</button> -->
     </form>
-    <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="true"></b-loading>
+    <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -83,11 +83,10 @@ export default {
 
         const res = await this.$repositories.accounts.create(this.form)
         
-        console.log(res)
         if (res.status == 201){          
-          // return this.$router.push('/cadastro/plano')
           await this.$auth.fetchUser()
-          return this.$router.push('/')
+          return this.$router.push('/cadastro/plano')
+          // return this.$router.push('/')
         }
         
       }catch(error){
