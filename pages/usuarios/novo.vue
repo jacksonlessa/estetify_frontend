@@ -44,11 +44,11 @@
               <hr />
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" autocomplete="off"/>
+              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" autocomplete="off"  password-reveal/>
             </div>
 
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" autocomplete="off"/>
+              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" autocomplete="off"  password-reveal/>
             </div>
           </div>
 
@@ -101,9 +101,8 @@ export default {
       this.$repositories.users.create(this.form)
       .then((res) => {
         this.item = res.data
-        // name: 'clientes-id', params : {id: client.id}
-        let msg = "Profissional salvo!";
-        this.$router.push({name: 'usuario-id', params : {msg: msg, id: this.professional.id}});
+        let msg = "Usuário salvo!";
+        this.$router.push({name: 'usuarios-id', params : {msg: msg, id: this.item.id}});
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;

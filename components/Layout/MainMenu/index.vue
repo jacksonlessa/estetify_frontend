@@ -8,12 +8,12 @@
           </span> <span class="menu-text">Dashboard</span>
         </NuxtLink>
       </li>
-      <li class="mb-3">
+      <li class="mb-3" v-if="user.role == 'admin'">
         <NuxtLink to="/servicos" class="simple-match">
           <span class="icon is-small"><fa :icon="['fas', 'box']" /></span> <span class="menu-text">Serviços</span>
         </NuxtLink>
       </li>
-      <li class="mb-3">
+      <li class="mb-3" v-if="user.role == 'admin'">
         <NuxtLink to="/profissionais" class="simple-match">
           <span class="icon is-small"><fa :icon="['far', 'id-card']" /></span> <span class="menu-text">Profissionais</span>
         </NuxtLink>
@@ -28,7 +28,7 @@
           <span class="icon is-small"><fa :icon="['far', 'calendar-alt']" /></span> <span class="menu-text">Atendimentos</span>
         </NuxtLink>
       </li>
-      <li class="mb-3">
+      <li class="mb-3" v-if="user.role == 'admin'">
         <NuxtLink to="/usuarios" class="simple-match">
           <span class="icon is-small"><fa :icon="['fas', 'users']" /></span> <span class="menu-text">Usuários</span>
         </NuxtLink>
@@ -51,6 +51,11 @@
 export default {
   name: "MainMenu",
   components: {},
+  data() {
+    return {
+      user: this.$auth.user,
+    }
+  },
 };
 </script>
 

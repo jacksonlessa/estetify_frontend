@@ -51,7 +51,7 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                 <div class="dropdown-content">
-                  <div class="dropdown-item">
+                  <!-- <div class="dropdown-item">
                     <NuxtLink to="/profile" class="navbar-item">
                       <span class="icon is-small">
                         <fa :icon="['fas','user']" />
@@ -59,7 +59,7 @@
                       &nbsp; Profile
                     </NuxtLink>
                   </div>
-                  <hr class="navbar-divider" />
+                  <hr class="navbar-divider" /> -->
                   <div class="dropdown-item">
                     <a class="navbar-item" @click.prevent="logout">
                       <span class="icon is-small">

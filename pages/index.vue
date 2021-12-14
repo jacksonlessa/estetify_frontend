@@ -4,24 +4,34 @@
       <indicator-card 
         title="Agenda Hoje"
         desc="Atendimentos"
-        value="10"
+        :value="data.orders.day"
         icon="mdi-cart-outline"
         link="/servicos"
+        :isLoading="isLoading"
       />
       <indicator-card 
         title="Agenda Semanal"
         desc="Atendimentos"
-        value="45"
+        :value="data.orders.week"
         icon="mdi-cart-outline"
+        :isLoading="isLoading"
+      />
+      <indicator-card v-if="user.role == 'admin'"
+        title="Faturamento Mensal"
+        desc="Faturamento"
+        :value="data.sales.month"
+        icon="mdi-cart-outline"
+        :isLoading="isLoading"
       />
       <indicator-card 
-        title="Faturamento Mensal"
-        desc="Vendas"
-        value="R$7,770"
+        title="Fechamento Diario"
+        desc="Faturamento"
+        :value="data.sales.day"
         icon="mdi-cart-outline"
+        :isLoading="isLoading"
       />
-      <first-steps />
-      <conected-user />
+      <!-- <first-steps />
+      <conected-user /> -->
     </div>
   </div>
 </template>
@@ -39,7 +49,27 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
+      user: this.$auth.user,
+      data: {
+        orders:{
+          day : null,
+          week : null
+        },
+        sales:{
+          day: null,
+          month: null
+        }
+      }
     }
+  },
+  async fetch() {
+    this.$repositories.dashboard.resume().then((res) => {
+      this.isLoading=false
+      this.data = res.data
+    }).catch((error) => {
+      console.log(error)
+    })
   },
   methods: {
     async logout() {

@@ -32,13 +32,13 @@
         </a>
 
         <div class="navbar-dropdown is-right">
-          <NuxtLink to="/profile"  class="navbar-item">
+          <!-- <NuxtLink to="/profile"  class="navbar-item">
             <span class="icon is-small">
               <fa :icon="['fas','user']" />
             </span>
             &nbsp; Profile
           </NuxtLink>
-          <hr class="navbar-divider" />
+          <hr class="navbar-divider" /> -->
           <a class="navbar-item" @click.prevent="logout">
             <span class="icon is-small">
               <fa :icon="['fas','power-off']" />

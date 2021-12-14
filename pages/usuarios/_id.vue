@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center is-flex-wrap-wrap">
-      <NuxtLink to="/profissionais">
+      <NuxtLink to="/usuarios">
         <div class="icon-text">
           <span class="icon mr-3">
             <fa :icon="['fas', 'users']" />
@@ -47,11 +47,11 @@
             </div>
 
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" />
+              <text-input v-model.trim="form.password" :errors="errors.password" label="Senha" :type="'password'" autocomplete="off"  password-reveal/>
             </div>
 
             <div class="field column pb-0 is-6">
-              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" />
+              <text-input v-model.trim="form.password_confirmation" :errors="errors.password_confirmation" label="Confirmar senha" :type="'password'" autocomplete="off"  password-reveal/>
             </div>
           </div>
 

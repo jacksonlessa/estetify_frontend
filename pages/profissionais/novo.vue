@@ -17,9 +17,9 @@
 
     <form>
       <div class="card">
-        <div class="card-content">
+        <div class="card-content">              
           <div v-if="hasError" class='has-background-danger has-text-white mb-4 p-3'>
-            Um ou mais erros impedem a gravação, se você acha 
+            {{errorMsg ? errorMsg : 'Um ou mais erros impedem a gravação, se você acha '}}
           </div>
           <div class="columns is-multiline is-tablet">
             <div class="field column pb-0 is-6">
@@ -61,6 +61,7 @@ export default {
         name: null,
       },
       hasError: false,
+      errorMsg: "",
       submitStatus: false,
       user: this.$auth.user,
       professional: null,
@@ -86,7 +87,15 @@ export default {
             this.errors = error.response.data.errors
             return;
           }
-          if (error.response.status == 401) {
+          if (error.response.status == 401 ) {
+            return;
+          }
+          if (error.response.status == 400 ) {
+            this.errorMsg = error.response.data.error
+            return;
+          }
+          if (error.response.status == 403 ) {
+            this.errorMsg = "Você não tem autorização para executar esta ação"
             return;
           }
         }

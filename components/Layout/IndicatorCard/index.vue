@@ -6,7 +6,7 @@
           {{title}}
         </p>
       </header>
-      <div class="card-content">
+      <div class="card-content" v-if="!isLoading">
         <div class="level is-mobile">
           <div class="level-item">
             <div class="is-widget-label">
@@ -28,6 +28,7 @@
       <footer class="card-footer" v-if="link" >
         <nuxt-link :to="link" class="card-footer-item">Listar</nuxt-link>
       </footer>
+      <b-loading :is-full-page="false" v-model="isLoading"></b-loading>
     </div>
   </div>
 </template>
@@ -45,7 +46,7 @@ export default {
       default: ""
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: ""
     },
     icon: {
@@ -56,6 +57,10 @@ export default {
       type: String,
       default: ""
     },
+    isLoading: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {
   },
