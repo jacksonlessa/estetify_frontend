@@ -131,9 +131,9 @@
               :type="{ 'is-danger': errors.status }"
               :message="errors.status">
               <b-select v-model="form.status" expanded>
-                <option value="open">Aberto</option>
+                <option value="opened">Aberto</option>
                 <option value="closed">Finalizado</option>
-                <option value="cancelled">Cancelado</option>
+                <option value="canceled">Cancelado</option>
               </b-select>
             </b-field>
             <b-field label="Forma de Pagamento"
@@ -141,9 +141,10 @@
               :message="errors.payment_method">
               <b-select v-model="form.payment_method" expanded>
                 <option value="">Selecione</option>
-                <option value="boleto">Boleto</option>
+                <option value="dinheiro">Dinheiro</option>
                 <option value="debito">Debito</option>
                 <option value="credito">Crédito</option>
+                <option value="pix">PIX</option>
               </b-select>
             </b-field>
             <b-field label="Valor">

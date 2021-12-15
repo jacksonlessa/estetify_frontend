@@ -12,7 +12,8 @@
             <div class="is-widget-label">
               <h3 class="subtitle is-spaced"> {{desc}} </h3>
               <h1 class="title">
-                <div>{{value}}</div>
+                <div v-if="format">{{value|price}}</div>
+                <div v-if="!format">{{value}}</div>
               </h1>
             </div>
           </div>
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import {currencyStyle} from "@/helpers/functions"
 
 export default {
   props: {
@@ -57,12 +59,21 @@ export default {
       type: String,
       default: ""
     },
+    format: {
+      type: Boolean,
+      default: false
+    },
     isLoading: {
       type: Boolean,
       default: false
     }
   },
   components: {
+  },  
+  filters: {
+    price: function (val){
+      return currencyStyle(val)
+    }
   },
   data() {
     return {

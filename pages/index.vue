@@ -6,7 +6,7 @@
         desc="Atendimentos"
         :value="data.orders.day"
         icon="mdi-cart-outline"
-        link="/servicos"
+        link="/atendimentos"
         :isLoading="isLoading"
       />
       <indicator-card 
@@ -21,6 +21,7 @@
         desc="Faturamento"
         :value="data.sales.month"
         icon="mdi-cart-outline"
+        :format="true"
         :isLoading="isLoading"
       />
       <indicator-card 
@@ -28,6 +29,7 @@
         desc="Faturamento"
         :value="data.sales.day"
         icon="mdi-cart-outline"
+        :format="true"
         :isLoading="isLoading"
       />
       <!-- <first-steps />
