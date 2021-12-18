@@ -29,13 +29,13 @@
               <text-input v-model="form.birthdate" :errors="errors.birthdate" label="Data de Aniversario" v-mask="['##/##/####']"/>
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model="form.phone" :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']"/>
+              <text-input v-model="form.phone" :errors="errors.phone" label="Telefone" type="tel" v-mask="['(##) ####-####', '(##) #####-####']"/>
             </div>
             <div class="field column pb-0 is-6">
               <text-input v-model="form.email" :errors="errors.email" label="E-mail" />
             </div>
             <div class="field column pb-0 is-6">
-              <text-input v-model="form.document" :errors="errors.document" label="Documento" v-mask="['###.###.###-##', '##.###.###/####-##']"/>
+              <text-input v-model="form.document" :errors="errors.document" label="Documento" type="tel" v-mask="['###.###.###-##', '##.###.###/####-##']"/>
             </div>
           </div>
 

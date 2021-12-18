@@ -82,7 +82,7 @@ export default {
     return {
       selectedPlanID : 2,
       features:{
-        profissionais: {
+        professionals: {
           name: "Profissionais",
           type: "value"
         },
@@ -103,7 +103,7 @@ export default {
           id: 1,
           price: 30,
           features: {
-            profissionais: 1,
+            professionals: 1,
             services: true,
             products: false
           }
@@ -113,7 +113,7 @@ export default {
           id: 2,
           price: 50,
           features: {
-            profissionais: 5,
+            professionals: 5,
             services: true,
             products: false
           }
@@ -123,7 +123,7 @@ export default {
           id: 3,
           price: 100,
           features: {
-            profissionais: 10,
+            professionals: 10,
             services: true,
             products: true
           }

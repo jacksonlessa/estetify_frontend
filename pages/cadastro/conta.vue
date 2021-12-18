@@ -14,8 +14,8 @@
       <b-field>
             <b-switch v-model="souMei">sou MEI</b-switch>
       </b-field>
-      <text-input v-if="souMei" v-model="form.document"  :errors="errors.document" label="CPF" v-mask="['###.###.###-##']" />
-      <text-input v-if="!souMei" v-model="form.document"  :errors="errors.document" label="CNPJ" v-mask="['##.###.###/####-##']" />
+      <text-input v-if="souMei" v-model="form.document"  :errors="errors.document" label="CPF" type="tel" v-mask="['###.###.###-##']" />
+      <text-input v-if="!souMei" v-model="form.document"  :errors="errors.document" label="CNPJ" type="tel" v-mask="['##.###.###/####-##']" />
 
 
       <select-input v-model="form.activity" :errors="errors.activity" label="Ramo de atividade">
@@ -24,7 +24,7 @@
       </select-input>
       <text-input v-if="form.activity=='Outro'" v-model="form.other_activity"  :errors="errors.other_activity" label="Outro ramo:" />
 
-      <text-input v-model="form.phone"  :errors="errors.phone" label="Telefone" v-mask="['(##) ####-####', '(##) #####-####']" />
+      <text-input v-model="form.phone"  :errors="errors.phone" label="Telefone" type="tel" v-mask="['(##) ####-####', '(##) #####-####']" />
       <div class="is-flex is-justify-content-space-between is-align-items-center">
         <b-button 
           tag="input"

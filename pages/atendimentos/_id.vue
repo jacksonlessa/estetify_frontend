@@ -118,7 +118,7 @@
 
           </div>
           <footer class="card-footer">
-            <NuxtLink to="/usuarios" class="card-footer-item has-text-link">Voltar</NuxtLink>
+            <NuxtLink to="/atendimentos" class="card-footer-item has-text-link">Voltar</NuxtLink>
             <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
           </footer>
         </div>
