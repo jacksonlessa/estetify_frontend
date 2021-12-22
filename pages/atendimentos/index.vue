@@ -32,6 +32,16 @@
           </b-datepicker>
         </b-field>
         <div class="field">
+          <label class="label">Cancelados:</label>
+          <div class="select">
+            <select v-model="form.canceled">
+              <option value="without">Sem cancelados</option>
+              <option value="with">Com cancelados</option>
+              <option value="only">Somente cancelados</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
           <label class="label">Excluidos:</label>
           <div class="select">
             <select v-model="form.trashed">
@@ -91,6 +101,30 @@
         :last_page="orders.last_page"
         @pageChange="pageChange"
       />
+
+
+      
+      <div>
+        <span v-if="orders.data.length === 0">Nenhum atendimento existente para os filtros selecionados</span>
+        <div v-for="order in orders.data" :key="order.id" class="card">
+          <div class="card-content">
+            <div class="client">
+              <p class="title is-4">{{ order.client.name }}</p>
+              <p class="subtitle is-6">
+                {{order.client.phone}}
+              </p>
+            </div>
+            <time datetime="2016-1-1">{{ order.scheduled_at }}</time>
+          </div>
+          <footer class="card-footer">
+            <nuxt-link class="card-footer-item" :to="{name: 'atendimentos-id', params : {id: order.id}}">
+              Abrir
+            </nuxt-link>
+            <div href="#" class="card-footer-item"></div>
+            <a @click="orderCancel(order)" class="card-footer-item has-text-danger">Cancelar</a>
+          </footer>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -114,6 +148,7 @@ export default {
       form: {
         search: "",
         trashed: "",
+        canceled: "without",
         professional_name: "",
         client_name: "",
         schedule_range: [ new Date(), new Date() ]
@@ -156,11 +191,24 @@ export default {
     reset() {
       this.form = mapValues(this.form, () => null)
       this.form.schedule_range = [ new Date(), new Date() ]
+      this.form.canceled = "without"
     },
     pageChange(page) {
       this.current_page = page;
       this.orders.current_page = page;
+    },
+    async orderCancel(order) {
+      if(!confirm("Deseja cancelar o atendimento do cliente "+order.client.name+"?"))
+        return false;
+
+      let newOrder = order  
+      newOrder.status = "canceled"
+      delete newOrder.services;
+      
+      this.$repositories.orders.update(order.id, order);
+      this.$fetch()
     }
+
   },
   watch: {
     form: {

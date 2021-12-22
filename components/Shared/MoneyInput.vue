@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <label v-if="label" class="label" :for="id">{{ label }}:</label>
+    <label v-if="label" class="label" :for="id">{{ label }}</label>
     <money 
       :id="id" 
       ref="input" 
