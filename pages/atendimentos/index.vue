@@ -106,7 +106,7 @@
       
       <div>
         <span v-if="orders.data.length === 0">Nenhum atendimento existente para os filtros selecionados</span>
-        <div v-for="order in orders.data" :key="order.id" class="card">
+        <div v-for="order in orders.data" :key="order.id" class="card mb-3">
           <div class="card-content">
             <div class="client">
               <p class="title is-4">{{ order.client.name }}</p>
@@ -114,7 +114,13 @@
                 {{order.client.phone}}
               </p>
             </div>
-            <time datetime="2016-1-1">{{ order.scheduled_at }}</time>
+            <time :datetime="order.scheduled_at">{{ order.scheduled_at | date}}</time>
+            <b-field>
+              <b-tag :type="order.status|statusClass" rounded>{{order.status|statusToString}}</b-tag>
+            </b-field>
+            <ul>
+              <li v-for="serviceItem in order.services" :key="'service' + serviceItem.id">{{serviceItem.service.name}} - {{serviceItem.professional.name | truncate(15)}}</li>
+            </ul>
           </div>
           <footer class="card-footer">
             <nuxt-link class="card-footer-item" :to="{name: 'atendimentos-id', params : {id: order.id}}">
@@ -221,6 +227,35 @@ export default {
     current_page: throttle(function() {
         this.$fetch()
       }, 500)
-  }
+  },
+  filters: {
+    date: function (dateInput){
+      const date = new Date(dateInput);
+      const text =  date.toLocaleString();
+      return text.substring(0,text.length-3)
+    },
+    statusToString: function (status){
+      const statuses = {
+        opened: "Aberto",
+        closed: "Finalizado",
+        canceled: "Cancelado"
+      }
+      return statuses[status]
+    },
+    statusClass:  function (status){
+      const statuses = {
+        opened: "is-link",
+        closed: "is-primary",
+        canceled: "is-danger"
+      }
+      return statuses[status]
+    },
+    truncate: function (text, count) {
+      if (text.length > count)
+        return text.substring(0, count)+"...";
+        
+      return text;
+    }
+  },
 }
 </script>

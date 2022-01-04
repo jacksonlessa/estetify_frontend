@@ -235,7 +235,8 @@ export default {
       this.setAutocompleteValue(this.form.client)
       this.setServicosValue(this.formOriginal.services)
 
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.log(error)
       //this.$router.replace({ name: "" }); @TODO add correct route
       // reject(error);
@@ -256,6 +257,11 @@ export default {
       .then((res) => {
         this.item = res.data
         this.successMessage = "Atendimento atualizado com sucesso!";
+        this.$buefy.toast.open({
+            message: 'Atendimento atualizado com sucesso!',
+            // position: 'is-bottom',
+            type: 'is-success'
+        })
       }).catch((error) => {
         if (error.response) {
           this.hasError = true;
@@ -327,11 +333,13 @@ export default {
     setServicosValue(services){
       let ids = [];
       services.forEach((value) => {
-        ids.push(value.pivot.service_id)
+        console.log(value.service_id)
+        ids.push(value.service_id)
       })
       const selected = this.services.filter(function (res) {
         return ids.includes(res.id);
       })
+      console.log(selected)
       this.servicesSelected = selected;
     },
 
@@ -368,7 +376,8 @@ export default {
       this.servicesSelected.forEach(service => {
         arrServices[service.id.toString()] = {
           original_price : service.price,
-          price : service.price
+          price : service.price,
+          professional_id : this.professionals.length==1 ? this.professionals[0].id : "",
         }
       });
 
@@ -384,9 +393,9 @@ export default {
       // get originalForm in the first time
       if(!this.servicesListed){
         this.formOriginal.services.forEach((value) => {
-          arrServices[value.pivot.service_id].price = value.pivot.price
-          arrServices[value.pivot.service_id].original_price = value.pivot.original_price
-          arrServices[value.pivot.service_id].professional_id = value.pivot.professional_id
+          arrServices[value.service_id].price = value.price
+          arrServices[value.service_id].original_price = value.original_price
+          arrServices[value.service_id].professional_id = value.professional_id
         })
         this.servicesListed=true
       }
