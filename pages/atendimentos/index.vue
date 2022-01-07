@@ -23,12 +23,16 @@
             <input class="input" type="text" v-model="form.professional_name" placeholder="Nome do Profissional" />
           </div>
         </div>
-        <b-field label="Data">
-          <b-datepicker v-model="form.schedule_range"
+        <b-field label="Data a partir">
+          <b-datepicker v-model="form.init_date"
             :locale="locale"
-            range
             >
-
+          </b-datepicker>
+        </b-field>
+        <b-field label="Data até">
+          <b-datepicker v-model="form.end_date"
+            :locale="locale"
+            >
           </b-datepicker>
         </b-field>
         <div class="field">
@@ -61,76 +65,56 @@
       <div v-if="warningMessage" class='has-background-warning has-text-warning-dark mb-4 p-3'>
         {{warningMessage}}
       </div>
-      
-      <div class="table-container">
-        <table class="table is-striped is-fullwidth">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Profissional</th>
-              <th>Hora</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="order in orders.data" :key="order.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
-              <td>
-                <nuxt-link :to="{name: 'atendimentos-id', params : {id: order.id}}">
-                  {{ order.client.name }}
+           
+      <div>
+        <span v-if="orders.data.length === 0">Nenhum atendimento existente para os filtros selecionados</span>
+        <div class="columns is-multiline">
+          <div v-for="order in orders.data" :key="order.id"  class="column is-half-tablet is-one-quarter-widescreen">
+            <div class="card mb-3 is-align-items-stretch">
+              <div class="card-content">
+                <div class="client mb-2">
+                  <p class="title is-4">{{ order.client.name }}</p>
+                  <p class="subtitle is-7">
+                    <strong>Telefone:</strong>{{order.client.phone}} <strong>Email:</strong>{{order.client.email}}
+                  </p>
+                </div>
+                <div class="order-details mb-4 is-flex is-justify-content-space-between">
+                  <b-field class="mb-0">
+                    <b-tag :type="order.status|statusClass" rounded>{{order.status|statusToString}}</b-tag>
+                  </b-field>
+                  <span>
+                    <b-icon icon="calendar" size="is-small"></b-icon>
+                    <time :datetime="order.scheduled_at">{{ order.scheduled_at | date}}</time>
+                  </span>
+                </div>
+
+
+                <div class="list-group">
+                  <div class="list-group-item"
+                    v-for="serviceItem in order.services" :key="'service' + serviceItem.id">
+                    <span class="mr-2">
+                      <b-icon icon="label"></b-icon>
+                    </span>
+                    <span>{{serviceItem.service.name}} - {{serviceItem.professional.name | truncate(15)}}</span>
+                  </div>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a @click="orderCancel(order)" class="card-footer-item has-text-danger">Cancelar</a>
+                <div href="#" class="card-footer-item"></div>
+                <nuxt-link class="card-footer-item" :to="{name: 'atendimentos-id', params : {id: order.id}}">
+                  Abrir
                 </nuxt-link>
-              </td> 
-              <td>
-                {{ order.professional.name }}
-              </td>            
-              <td>
-                {{ order.scheduled_at }}
-              </td>
-              <td>
-                <nuxt-link :to="{name: 'atendimentos-id', params : {id: order.id}}">
-                  <fa :icon="['fas', 'chevron-right']" />
-                </nuxt-link>
-              </td>
-            </tr>
-            <tr v-if="orders.data.length === 0">
-              <td colspan="3">Nenhum Atendimento cadastrado.</td>
-            </tr>
-          </tbody>
-        </table>
+              </footer>
+            </div>
+          </div>
+        </div>
       </div>
+
       <pagination :current_page="orders.current_page" 
         :last_page="orders.last_page"
         @pageChange="pageChange"
       />
-
-
-      
-      <div>
-        <span v-if="orders.data.length === 0">Nenhum atendimento existente para os filtros selecionados</span>
-        <div v-for="order in orders.data" :key="order.id" class="card mb-3">
-          <div class="card-content">
-            <div class="client">
-              <p class="title is-4">{{ order.client.name }}</p>
-              <p class="subtitle is-6">
-                {{order.client.phone}}
-              </p>
-            </div>
-            <time :datetime="order.scheduled_at">{{ order.scheduled_at | date}}</time>
-            <b-field>
-              <b-tag :type="order.status|statusClass" rounded>{{order.status|statusToString}}</b-tag>
-            </b-field>
-            <ul>
-              <li v-for="serviceItem in order.services" :key="'service' + serviceItem.id">{{serviceItem.service.name}} - {{serviceItem.professional.name | truncate(15)}}</li>
-            </ul>
-          </div>
-          <footer class="card-footer">
-            <nuxt-link class="card-footer-item" :to="{name: 'atendimentos-id', params : {id: order.id}}">
-              Abrir
-            </nuxt-link>
-            <div href="#" class="card-footer-item"></div>
-            <a @click="orderCancel(order)" class="card-footer-item has-text-danger">Cancelar</a>
-          </footer>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -157,7 +141,8 @@ export default {
         canceled: "without",
         professional_name: "",
         client_name: "",
-        schedule_range: [ new Date(), new Date() ]
+        init_date: new Date(),
+        end_date: new Date(),
       },
       locale: "pt-BR",
       current_page: 1,
@@ -196,7 +181,6 @@ export default {
   methods: {
     reset() {
       this.form = mapValues(this.form, () => null)
-      this.form.schedule_range = [ new Date(), new Date() ]
       this.form.canceled = "without"
     },
     pageChange(page) {
@@ -259,3 +243,27 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.list-group {
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  
+  .list-group-item{
+    line-height: 1.5;
+  }
+}
+.list-group-item{
+  display: flex;
+  position: relative;
+  padding: 0.75rem;
+  background-color: #fff;
+  border: 1px solid rgba(34,41,47,.125);
+  +.list-group-item{
+    border-top-width: 0;
+  }
+}
+</style>
