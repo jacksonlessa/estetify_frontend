@@ -17,13 +17,13 @@
     "nuxt": "^2.15.7",
     "nuxt-buefy": "^0.4.10",
     "v-money": "^0.8.1",
+    "vue-gtag": "^1.16.1",
     "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@nuxtjs/google-analytics": "^2.4.0",
     "node-sass": "^6.0.1",
     "nuxt-fontawesome": "^0.4.0",
     "sass": "^1.35.1",

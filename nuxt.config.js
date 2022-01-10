@@ -35,6 +35,7 @@ export default {
   plugins: [
     '~plugins/vue-the-mask',
     '~/plugins/repositories',
+    '~/plugins/gtag'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -60,7 +61,6 @@ export default {
         },
       ]
    }],
-    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -108,12 +108,4 @@ export default {
   build: {
   },
 
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID, // Use as fallback if no runtime config is provided
-  },
-  publicRuntimeConfig: {
-    googleAnalytics: {
-      id: process.env.GOOGLE_ANALYTICS_ID
-    }
-  }
 }
