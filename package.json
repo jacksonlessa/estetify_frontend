@@ -23,6 +23,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@nuxtjs/google-analytics": "^2.4.0",
     "node-sass": "^6.0.1",
     "nuxt-fontawesome": "^0.4.0",
     "sass": "^1.35.1",
