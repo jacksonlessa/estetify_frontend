@@ -17,12 +17,12 @@
             <input class="input" type="text" v-model="form.client_name" placeholder="Nome do Cliente" />
           </div>
         </div>
-        <div class="field">
+        <!-- <div class="field">
           <label class="label">Profissional:</label>
           <div class="control">
             <input class="input" type="text" v-model="form.professional_name" placeholder="Nome do Profissional" />
           </div>
-        </div>
+        </div> -->
         <b-field label="Data a partir">
           <b-datepicker v-model="form.init_date"
             :locale="locale"
@@ -95,7 +95,9 @@
                     <span class="mr-2">
                       <b-icon icon="label"></b-icon>
                     </span>
-                    <span>{{serviceItem.service.name}} - {{serviceItem.professional.name | truncate(15)}}</span>
+                    <span>{{serviceItem.service.name}} - 
+                      {{serviceItem.professional.name | truncate(15)}}
+                      </span>
                   </div>
                 </div>
               </div>
@@ -139,7 +141,6 @@ export default {
         search: "",
         trashed: "",
         canceled: "without",
-        professional_name: "",
         client_name: "",
         init_date: new Date(),
         end_date: new Date(),

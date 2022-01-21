@@ -90,7 +90,7 @@
                       <text-input v-model="service.name" label="Serviço" disabled />
                     </div>
                     <div class="column is-4">
-                      <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional">
+                      <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional" :errors="errors['services.'+service.id.toString()+'.professional_id']">
                         <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
                         <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
                       </select-input>

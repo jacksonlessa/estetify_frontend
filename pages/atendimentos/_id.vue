@@ -91,8 +91,8 @@
                       <text-input v-model="service.name" label="Serviço" disabled />
                     </div>
                     <div class="column is-4">
-                      <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional">
-                        <option v-if="professionals.length>1" :value="null">Selecione um professional</option>
+                      <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional" :errors="errors['services.'+service.id.toString()+'.professional_id']">
+                        <option v-if="professionals.length>1" :value="null">Selecione um profissional</option>
                         <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
                       </select-input>
                     </div>  
@@ -377,7 +377,7 @@ export default {
         arrServices[service.id.toString()] = {
           original_price : service.price,
           price : service.price,
-          professional_id : this.professionals.length==1 ? this.professionals[0].id : "",
+          professional_id : (this.professionals && this.professionals.length==1) ? this.professionals[0].id : "",
         }
       });
 
