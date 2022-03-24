@@ -1,0 +1,37 @@
+@import "@/assets/css/_variables.scss";
+
+.fab-wrapper{
+  right: 5vw;
+  bottom: 4vh;
+  z-index: 99;
+  position: fixed;
+
+
+  .additional-actions{
+    // @TODO Apply some transition
+    display: none;
+    &.is-active{
+      display: block;
+    }
+  }
+  ul{
+    li{
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+  }
+  .expand-actions{
+    .mdi{
+      &:before{
+        transition: transform .3s linear; 
+      }
+    }
+    &.is-active{
+      .mdi{
+        &:before{
+          transform:rotate(225deg)
+        }
+      }
+    }
+  }
+} 
