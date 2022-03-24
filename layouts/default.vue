@@ -84,6 +84,7 @@
         </main>
       </div>
     </div>
+    <Fab />
   </div>
 </template>
 
@@ -93,13 +94,16 @@ import Logo from "@/components/Layout/EstetifyLogo";
 import Navbar from "@/components/Layout/Header/dash";
 import MainMenu from "@/components/Layout/MainMenu";
 import Copyright from "@/components/Layout/Footer/copyright";
+import Fab from "@/components/Layout/FloatingActionButton/";
+
 
 export default {
   components: {
     Logo,
     Navbar,
     MainMenu,
-    Copyright
+    Copyright,
+    Fab
   },
   data() {
     return {
