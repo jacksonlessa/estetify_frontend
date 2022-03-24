@@ -4,7 +4,7 @@
       <NuxtLink to="/profissionais">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['far', 'id-card']" />
+            <i class="mdi mdi-36px mdi-card-account-details"></i>
           </span>
           <span>Profissionais</span>
         </div>

@@ -3,7 +3,7 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <div class="icon-text">
         <span class="icon mr-3">
-          <fa :icon="['fas', 'box']" />
+          <i class="mdi mdi-36px mdi-content-cut"></i>
         </span>
         <span>Serviços</span>
       </div>
@@ -12,12 +12,12 @@
     <div class="is-flex mb-5 is-justify-content-space-between is-flex-wrap-wrap is-align-items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <div class="field">
-          <label class="label">Excluidos:</label>
+          <label class="label">excluídos:</label>
           <div class="select">
             <select v-model="form.trashed">
-              <option :value="null">Sem excluidos</option>
-              <option value="with">Com excluidos</option>
-              <option value="only">Somente excluidos</option>
+              <option :value="null">Sem excluídos</option>
+              <option value="with">Com excluídos</option>
+              <option value="only">Somente excluídos</option>
             </select>
           </div>
         </div>
@@ -47,7 +47,7 @@
             </td>
             <td>
               <nuxt-link :to="{name: 'servicos-id', params : {id: item.id}}">
-                <fa :icon="['fas', 'chevron-right']" />
+                <i class="mdi mdi-24px mdi-chevron-right" ></i>
               </nuxt-link>
             </td>
           </tr>

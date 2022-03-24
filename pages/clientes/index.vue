@@ -3,7 +3,7 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <div class="icon-text">
         <span class="icon mr-3">
-          <fa :icon="['far', 'address-book']" />
+          <i class="mdi mdi-36px mdi-account-star-outline"></i>
         </span>
         <span>Clientes</span>
       </div>
@@ -30,12 +30,12 @@
           </div>
         </div>
         <div class="field">
-          <label class="label">Excluidos:</label>
+          <label class="label">excluídos:</label>
           <div class="select">
             <select v-model="form.trashed">
-              <option :value="null">Sem excluidos</option>
-              <option value="with">Com excluidos</option>
-              <option value="only">Somente excluidos</option>
+              <option :value="null">Sem excluídos</option>
+              <option value="with">Com excluídos</option>
+              <option value="only">Somente excluídos</option>
             </select>
           </div>
         </div>
@@ -77,8 +77,8 @@
                 {{ client.document }}
               </td>
               <td>
-                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">
-                  <fa :icon="['fas', 'chevron-right']" />
+                <nuxt-link :to="{name: 'clientes-id', params : {id: client.id}}">                  
+                  <i class="mdi mdi-24px mdi-chevron-right" ></i>
                 </nuxt-link>
               </td>
             </tr>

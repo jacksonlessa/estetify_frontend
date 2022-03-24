@@ -28,13 +28,13 @@
           <div class="" id="user-nav"  v-bind:class="{'is-active': isUserMenuActive}">
             <!-- <a class="navbar-item nav-tag">
               <span class="icon is-small has-background-grey-dark has-text-white">
-                <fa :icon="['far','envelope']" />
+                <i class="mdi mdi-12px mdi-email"></i>
               </span>
               <span class="tag is-success counter">2</span>
             </a>
             <a class="navbar-item nav-tag">
               <span class="icon is-small has-background-grey-dark has-text-white">
-                <fa :icon="['far','bell']" />
+                <i class="mdi mdi-12px mdi-bell"></i>
               </span>
               <span class="tag is-danger counter">6</span>
             </a> -->
@@ -44,8 +44,8 @@
                   <span>
                       Olá, {{ userFirstName }}
                   </span>
-                  <span class="icon is-small">
-                    <fa :icon="['fas','angle-down']" />
+                  <span class="icon">
+                    <i class="mdi mdi-24px mdi-chevron-down"></i>
                   </span>
                 </button>
               </div>
@@ -53,8 +53,8 @@
                 <div class="dropdown-content">
                   <!-- <div class="dropdown-item">
                     <NuxtLink to="/profile" class="navbar-item">
-                      <span class="icon is-small">
-                        <fa :icon="['fas','user']" />
+                      <span class="icon">
+                        <i class="mdi mdi-24px mdi-account"></i>
                       </span>
                       &nbsp; Profile
                     </NuxtLink>
@@ -62,8 +62,8 @@
                   <hr class="navbar-divider" /> -->
                   <div class="dropdown-item">
                     <a class="navbar-item" @click.prevent="logout">
-                      <span class="icon is-small">
-                        <fa :icon="['fas','power-off']" />
+                      <span class="icon">
+                        <i class="mdi mdi-24px mdi-power"></i>
                       </span>
                       &nbsp; Logout
                     </a>
@@ -91,7 +91,6 @@
 <script>
 
 import Logo from "@/components/Layout/EstetifyLogo";
-import Navbar from "@/components/Layout/Header/dash";
 import MainMenu from "@/components/Layout/MainMenu";
 import Copyright from "@/components/Layout/Footer/copyright";
 import Fab from "@/components/Layout/FloatingActionButton/";
@@ -100,7 +99,6 @@ import Fab from "@/components/Layout/FloatingActionButton/";
 export default {
   components: {
     Logo,
-    Navbar,
     MainMenu,
     Copyright,
     Fab

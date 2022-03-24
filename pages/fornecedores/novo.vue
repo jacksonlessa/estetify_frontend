@@ -4,7 +4,7 @@
       <NuxtLink to="/fornecedores">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['far', 'address-book']" />
+            <i class="mdi mdi-36px mdi-truck"></i>
           </span>
           <span>Fornecedores</span>
         </div>

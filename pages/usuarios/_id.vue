@@ -4,7 +4,7 @@
       <NuxtLink to="/usuarios">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['fas', 'users']" />
+            <i class="mdi mdi-36px mdi-account-group"></i>
           </span>
           <span>Usuários</span>
         </div>

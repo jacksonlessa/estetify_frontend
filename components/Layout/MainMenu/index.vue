@@ -39,7 +39,7 @@
       <li class="mb-3">
         <NuxtLink to="/fornecedores" class="simple-match">
           <span class="icon is-small">
-            <i class="mdi mdi-12px mdi-truck-delivery" ></i>
+            <i class="mdi mdi-12px mdi-truck" ></i>
           </span> <span class="menu-text">Fornecedores</span>
         </NuxtLink>
       </li>
@@ -52,14 +52,16 @@
       </li>
   
     </ul>
-    <!-- <p class="menu-label">Fale conosco</p>
+    <p class="menu-label mt-5 mb-2">Fale conosco</p>
     <ul>
       <li class="mb-3">
-       <NuxtLink to="/contato" class="simple-match">
-          <span class="icon is-small"><fa :icon="['fab', 'telegram-plane']" /></span> <span class="menu-text">Contato</span>
-        </NuxtLink>
+       <a href="https://wa.me/5541995221932?text=Ol%C3%A1%2C+estou+usando+o+Estetify+e+gostaria+de+falar+com+voc%C3%AA" target="_blank">
+          <span class="icon is-small">
+            <i class="mdi mdi-12px mdi-whatsapp"></i>
+          </span> <span class="menu-text">Contato</span>
+        </a>
       </li>
-    </ul> -->
+    </ul>
   </div>
 </template>
 

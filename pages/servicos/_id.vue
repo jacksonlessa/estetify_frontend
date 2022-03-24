@@ -4,7 +4,7 @@
       <NuxtLink to="/servicos">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['fas', 'box']" />
+            <i class="mdi mdi-36px mdi-content-cut"></i>
           </span>
           <span>Serviços</span>
         </div>

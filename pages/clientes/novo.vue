@@ -4,7 +4,7 @@
       <NuxtLink to="/clientes">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['far', 'address-book']" />
+            <i class="mdi mdi-36px mdi-account-star-outline"></i>
           </span>
           <span>Clientes</span>
         </div>

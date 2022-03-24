@@ -4,7 +4,7 @@
       <NuxtLink to="/atendimentos">
         <div class="icon-text">
           <span class="icon mr-3">
-            <fa :icon="['far', 'calendar-alt']" />
+            <i class="mdi mdi-36px mdi-calendar-check"></i>
           </span>
           <span>Atendimento</span>
         </div>

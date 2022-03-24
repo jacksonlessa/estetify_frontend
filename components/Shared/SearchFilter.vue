@@ -5,7 +5,7 @@
         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
           <span class="is-hidden-touch">Filtros</span>
           <span class="icon is-small">
-            <fa :icon="['fas', 'angle-down']" />
+            <i class="mdi mdi-12px mdi-chevron-down"></i>
           </span>
         </button>
       </div>

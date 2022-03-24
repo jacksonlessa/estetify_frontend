@@ -3,7 +3,7 @@
     <h1 class="title is-3 has-text-grey-dark is-flex is-align-items-center">
       <div class="icon-text">
         <span class="icon mr-3">
-          <fa :icon="['far', 'address-book']" />
+          <i class="mdi mdi-36px mdi-truck"></i>
         </span>
         <span>Fornecedores</span>
       </div>
