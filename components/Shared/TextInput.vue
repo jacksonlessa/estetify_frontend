@@ -1,8 +1,10 @@
 
 <template>
+  <!-- :message="errors ? errors : message" -->
   <b-field :label="label"
   :type="{ 'is-danger': errors }"
-  :message="errors">
+  :message="messageToShow"
+  >
     <b-input 
       :id="id" 
       ref="input"
@@ -29,10 +31,26 @@ export default {
     value: [String, Number],
     label: String,
     errors: Array,
+    helperText: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
       inputValue: this.value,
+    }
+  },
+  computed: {
+    messageToShow() {
+      let msg = ""
+      if(this.helperText){
+        msg = this.helperText
+      }
+      if(this.errors){
+        msg = this.errors
+      }
+      return msg
     }
   },
   methods: {
@@ -56,6 +74,7 @@ export default {
         this.inputValue = newVal;
       }
     },
-  }
+  },
+  
 }
 </script>
