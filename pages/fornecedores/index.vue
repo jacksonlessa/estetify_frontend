@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="field">
-          <label class="label">excluídos:</label>
+          <label class="label">Excluídos:</label>
           <div class="select">
             <select v-model="form.trashed">
               <option :value="null">Sem excluídos</option>

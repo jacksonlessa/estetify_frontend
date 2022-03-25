@@ -12,7 +12,7 @@
     <div class="is-flex mb-5 is-justify-content-space-between is-flex-wrap-wrap is-align-items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <div class="field">
-          <label class="label">excluídos:</label>
+          <label class="label">Excluídos:</label>
           <div class="select">
             <select v-model="form.trashed">
               <option :value="null">Sem excluídos</option>
