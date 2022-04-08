@@ -72,6 +72,7 @@
                     v-model="servicesSelected"
                     :data="filteredServices"
                     ref="servicos"
+                    open-on-focus
                     autocomplete
                     field="name"
                     icon="label"
@@ -90,7 +91,7 @@
                     <div class="column is-4">
                       <text-input v-model="service.name" label="Serviço" disabled />
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-4" v-bind:class="{ 'is-hidden' : !showProfessionalSelect }">
                       <select-input v-if="professionals" v-model="form.services[service.id.toString()].professional_id" label="Profissional" :errors="errors['services.'+service.id.toString()+'.professional_id']">
                         <option v-if="professionals.length>1" :value="null">Selecione um profissional</option>
                         <option v-for="professional in professionals" :key="professional.id" :value="professional.id">{{ professional.name }}</option>
@@ -106,7 +107,7 @@
 
 
               <div class="field column pb-0 is-12">
-                <text-input v-model="form.observation" :errors="errors.observation" label="Observação" />
+                <text-input type='textarea'  v-model="form.observation" :errors="errors.observation" label="Observação" />
               </div>
               
             </div>
@@ -289,6 +290,7 @@ export default {
     async loadServices() {
       await this.$repositories.services.all([]).then((res) => {
         this.services = res.data.data
+        this.filteredServices = this.services
         return res.data.data
       }).catch((error) => {
         console.log(error.response)
@@ -362,6 +364,9 @@ export default {
         }
 
       return sum;
+    },
+    showProfessionalSelect: function () {
+      return !isFreePlan()
     }
   },
   filters: {

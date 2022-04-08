@@ -71,35 +71,25 @@
         <div class="columns is-multiline">
           <div v-for="order in orders.data" :key="order.id"  class="column is-half-tablet is-one-quarter-widescreen">
             <div class="card mb-3 is-align-items-stretch">
-              <div class="card-content">
-                <div class="client mb-2">
-                  <p class="title is-4">{{ order.client.name }}</p>
-                  <p class="subtitle is-7">
-                    <strong>Telefone:</strong>{{order.client.phone}} <strong>Email:</strong>{{order.client.email}}
-                  </p>
-                </div>
-                <div class="order-details mb-4 is-flex is-justify-content-space-between">
-                  <b-field class="mb-0">
-                    <b-tag :type="order.status|statusClass" rounded>{{order.status|statusToString}}</b-tag>
-                  </b-field>
-                  <span>
-                    <b-icon icon="calendar" size="is-small"></b-icon>
-                    <time :datetime="order.scheduled_at">{{ order.scheduled_at | date}}</time>
-                  </span>
-                </div>
-
-
-                <div class="list-group">
-                  <div class="list-group-item"
-                    v-for="serviceItem in order.services" :key="'service' + serviceItem.id">
-                    <span class="mr-2">
-                      <b-icon icon="label"></b-icon>
-                    </span>
-                    <span>{{serviceItem.service.name}} - 
-                      {{serviceItem.professional.name | truncate(15)}}
-                      </span>
+              <div class="card-content" @click="orderOpen(order)" >
+                  <div class="client mb-2">
+                    <p class="title is-4">
+                      {{ order.client.name }}
+                    </p>
+                    <p class="subtitle is-7">
+                      <strong>Telefone:</strong>{{order.client.phone}} 
+                      <strong>Email:</strong>{{order.client.email}}
+                    </p>
                   </div>
-                </div>
+                  <div class="order-details mb-4 is-flex is-justify-content-space-between">
+                    <b-field class="mb-0">
+                      <b-tag :type="order.status|statusClass" rounded>{{order.status|statusToString}}</b-tag>
+                    </b-field>
+                    <span>
+                      <b-icon icon="calendar" size="is-small"></b-icon>
+                      <time :datetime="order.scheduled_at">{{ order.scheduled_at | date}}</time>
+                    </span>
+                  </div>                  
               </div>
               <footer class="card-footer">
                 <a @click="orderCancel(order)" class="card-footer-item has-text-danger">Cancelar</a>
@@ -198,6 +188,9 @@ export default {
       
       this.$repositories.orders.update(order.id, order);
       this.$fetch()
+    },
+    async orderOpen(order) {
+      this.$router.push({name: 'atendimentos-id',params : { id: order.id}});
     }
 
   },

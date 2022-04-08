@@ -59,6 +59,7 @@ export default {
         "Barbearia",
         "Maquiadora",
         "Clinica de Estética",
+        "Massagem Terapêutica",
         "Outro",
       ],
       form: {
@@ -81,14 +82,20 @@ export default {
         this.isLoading = true
         this.erros = mapValues(this.erros, () => null)
 
+        this.form.plan_id = 1;
+        this.form.features = {
+          professionals: 1,
+          services: true,
+          products: false
+        }
+
         const res = await this.$repositories.accounts.create(this.form)
         
         if (res.status == 201){          
           await this.$auth.fetchUser()
-          return this.$router.push('/cadastro/plano')
-          // return this.$router.push('/')
+          // return this.$router.push('/cadastro/plano')
+          return this.$router.push('/')
         }
-        
       }catch(error){
         this.hasError = true
         if (error.response){

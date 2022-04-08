@@ -35,7 +35,8 @@ export default {
   plugins: [
     '~plugins/vue-the-mask',
     '~/plugins/repositories',
-    '~/plugins/gtag'
+    '~/plugins/gtag',
+    '~/plugins/util.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
