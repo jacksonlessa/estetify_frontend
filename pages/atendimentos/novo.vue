@@ -303,7 +303,7 @@ export default {
       return sum;
     },
     showProfessionalSelect: function () {
-      return !isFreePlan()
+      return !this.isFreePlan()
     }
   },
   filters: {

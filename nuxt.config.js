@@ -93,11 +93,16 @@ export default {
   },
 
   pwa: {
+    meta: {
+      name: 'Estetify App',
+      author : 'Jackson Lessa',
+    },
     manifest: {
       name: 'Estetify App',
       short_name: 'Estetify',
-      lang: 'pt',
-      useWebmanifestExtension: false
+      lang: 'pt-BR',
+      useWebmanifestExtension: false,
+      background_color: '#00D1B2'
     }
   },
 
