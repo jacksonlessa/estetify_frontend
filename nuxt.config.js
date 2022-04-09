@@ -102,7 +102,8 @@ export default {
       short_name: 'Estetify',
       lang: 'pt-BR',
       useWebmanifestExtension: false,
-      background_color: '#00D1B2'
+      background_color: '#00D1B2',
+      display: 'fullscreen'
     }
   },
 
