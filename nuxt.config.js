@@ -94,10 +94,6 @@ export default {
   },
 
   pwa: {
-    meta: {
-      name: 'Estetify App',
-      author : 'Jackson Lessa',
-    },
     manifest: {
       name: 'Estetify App',
       short_name: 'Estetify',
