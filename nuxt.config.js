@@ -98,8 +98,8 @@ export default {
       name: 'Estetify App',
       short_name: 'Estetify',
       useWebmanifestExtension: false,
-      background_color: '#00D1B2',
-      theme_color: '#00D1B2'
+      background_color: '#41b983',
+      theme_color: '#41b983'
       // lang: 'pt-BR',
     }
   },
