@@ -36,7 +36,8 @@ export default {
     '~plugins/vue-the-mask',
     '~/plugins/repositories',
     '~/plugins/gtag',
-    '~/plugins/util.js'
+    '~/plugins/util.js',
+    { src: '~/plugins/pwa-update.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -100,9 +101,10 @@ export default {
     manifest: {
       name: 'Estetify App',
       short_name: 'Estetify',
-      lang: 'pt-BR',
       useWebmanifestExtension: false,
-      background_color: '#00D1B2'
+      background_color: '#00D1B2',
+      theme_color: '#00D1B2'
+      // lang: 'pt-BR',
     }
   },
 
