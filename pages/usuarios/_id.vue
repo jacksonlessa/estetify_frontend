@@ -63,7 +63,7 @@
         </div>
         <footer class="card-footer">
           <NuxtLink to="/usuarios" class="card-footer-item has-text-link">Voltar</NuxtLink>
-          <a @click="trash" v-if="!form.deleted_at" class="card-footer-item has-text-danger">Deletar</a>
+          <a @click="trash" v-if="!form.deleted_at && this.$auth.user.id != form.id" class="card-footer-item has-text-danger">Deletar</a>
           <a @click="restore" v-if="form.deleted_at" class="card-footer-item has-text-info">Restaurar</a>
           <a @click="store" class="card-footer-item has-text-primary">Salvar</a>
         </footer>

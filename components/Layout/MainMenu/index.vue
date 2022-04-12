@@ -8,14 +8,14 @@
           </span> <span class="menu-text">Dashboard</span>
         </NuxtLink>
       </li>
-      <li class="mb-3" v-if="user.role == 'admin'">
+      <li class="mb-3" v-if="adminMenu">
         <NuxtLink to="/servicos" class="simple-match">
           <span class="icon is-small">
             <i class="mdi mdi-12px mdi-content-cut" ></i>
           </span> <span class="menu-text">Serviços</span>
         </NuxtLink>
       </li>
-      <li class="mb-3" v-if="user.role == 'admin'">
+      <li class="mb-3" v-if="adminMenu">
         <NuxtLink to="/profissionais" class="simple-match">
           <span class="icon is-small">
             <i class="mdi mdi-12px mdi-card-account-details" ></i>
@@ -43,7 +43,7 @@
           </span> <span class="menu-text">Fornecedores</span>
         </NuxtLink>
       </li>
-      <li class="mb-3" v-if="user.role == 'admin'">
+      <li class="mb-3" v-if="showUsersMenu">
         <NuxtLink to="/usuarios" class="simple-match">
           <span class="icon is-small">
             <i class="mdi mdi-12px mdi-account-group" ></i>
@@ -75,6 +75,14 @@ export default {
       user: this.$auth.user,
     }
   },
+  computed: {
+    showUsersMenu: function () {
+      return !this.isFreePlan() && this.adminMenu
+    },
+    adminMenu: function () {
+      return this.user.role == 'admin'
+    }
+  }
 };
 </script>
 
